@@ -98,7 +98,8 @@ public class AdminController extends Handler{
     	view.addObject("newUserList", userRes.findAll(new PageRequest(0, 20, Sort.Direction.DESC, "createtime"))) ;
     	
     	view.addObject("topicCommentList", topicCommentRes.findAll(new PageRequest(0, 1))) ;
-        return view;
+		System.out.println("sdasd");
+		return view;
     }
     
     private String format(int num){
