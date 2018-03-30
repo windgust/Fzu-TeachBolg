@@ -89,7 +89,8 @@ public class AdminController extends Handler{
     		countTopicList.add(0 , topic);
     		calendar.set(Calendar.DAY_OF_MONTH, day - 1);
     	}
-    	view.addObject("todayTopics", todayTopics) ;
+		System.out.println("asdasdas");
+		view.addObject("todayTopics", todayTopics) ;
     	
     	view.addObject("countTopicList", countTopicList) ;
     	
