@@ -38,7 +38,7 @@ public class LoginController extends Handler{
     @Menu(type = "apps" , subtype = "user" , access = true)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response  , @RequestHeader(value = "referer", required = false) String referer , @Valid String msg) {
     	ModelAndView view = request(super.createRequestPageTempletResponse("redirect:/"));
-    	if(request.getSession(true).getAttribute(UKDataContext.USER_SESSION_NAME) ==null){
+		if(request.getSession(true).getAttribute(UKDataContext.USER_SESSION_NAME) ==null){
     		view = request(super.createRequestPageTempletResponse("/login"));
 	    	if(!StringUtils.isBlank(request.getParameter("referer"))){
 	    		referer = request.getParameter("referer") ;
@@ -47,7 +47,7 @@ public class LoginController extends Handler{
 	    		view.addObject("referer", referer) ;
 	    	}
     	}
-    	if(!StringUtils.isBlank(msg)){
+		if(!StringUtils.isBlank(msg)){
     		view.addObject("msg", msg) ;
     	}
         return view;
@@ -57,7 +57,8 @@ public class LoginController extends Handler{
     @Menu(type = "apps" , subtype = "user" , access = true)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response , @Valid User user ,@Valid String referer) {
     	ModelAndView view = request(super.createRequestPageTempletResponse("redirect:/"));
-    	if(request.getSession(true).getAttribute(UKDataContext.USER_SESSION_NAME) ==null){
+		System.out.println(user);
+		if(request.getSession(true).getAttribute(UKDataContext.USER_SESSION_NAME) ==null){
 	        if(user!=null && user.getUsername()!=null){
 		    	User loginUser = userRepository.findByUsernameAndPassword(user.getUsername() , UKTools.md5(user.getPassword())) ;
 		        if(loginUser!=null){
@@ -71,7 +72,8 @@ public class LoginController extends Handler{
 		        		userRepository.save(loginUser) ;
 		        	}
 		        }else{
-		        	view = request(super.createRequestPageTempletResponse("/login"));
+					System.out.println("密码错误，返回登陆界面");
+					view = request(super.createRequestPageTempletResponse("/login"));
 		        	if(!StringUtils.isBlank(referer)){
 			    		view.addObject("referer", referer) ;
 			    	}
