@@ -89,7 +89,7 @@ a{
 .site-content{width: 899px; min-height: 900px; padding: 20px 0 10px 20px;}
 
 /* 婢舵挳鍎�*/
-.header{height: 50px; border-bottom: 0px solid #404553;  background-color: #32c24d; color: #fff;font-weight:200;}
+.header{height: 50px; border-bottom: 0px solid #404553;  background-color: #009688; color: #fff;font-weight:200;}
 .logo{position: absolute; left: 0; top: 10px;font-size:20px;color:#FFFFFF;}
 .logo img{height: 34px;}
 
@@ -101,7 +101,7 @@ a{
    	color:#FFFFFF;
 }
 .layui-btn{
-    background-color: #32c24d;	
+    background-color: #009688;
 }
 .layui-btn-primary {
     border: 1px solid #C9C9C9;
@@ -128,11 +128,11 @@ a{
 .menu a{position: relative; padding: 0 20px; margin: 0 20px; color: #c2c2c2; font-size: 14px;}
 .menu a:hover{color: #fff; transition: all .5s; -webkit-transition: all .5s}
 .menu a.this{color: #fff}
-.menu a.this::after{content: ''; position: absolute; left: 0; bottom: -1px; width: 100%; height: 5px; background-color: #5FB878;}
+.menu a.this::after{content: ''; position: absolute; left: 0; bottom: -1px; width: 100%; height: 5px; background-color: #009688;}
 
 .header-index{background-color: #080018; border: none;}
 
-.layui-layout-admin .header-ukefu{border-bottom-color: #009688; background-color: #32c24d;}
+.layui-layout-admin .header-ukefu{border-bottom-color: #009688; background-color: #009688;}
 .layui-layout-admin .layui-header {
     border-bottom: 0px solid #1AA094;
 }
@@ -149,11 +149,11 @@ a{
 .header-ukefu .layui-nav{top: 0;}
 .header-ukefu .layui-nav .layui-nav-item{margin: 0 10px; line-height: 48px;}
 .header-ukefu .layui-nav .layui-nav-item a{color: #ffffff;}
-.header-ukefu .layui-nav .layui-this{background-color: #19a55d;}
+.header-ukefu .layui-nav .layui-this{background-color: #009688;}
 .header-ukefu .layui-nav .layui-nav-item a:hover, 
 .header-ukefu .layui-nav .layui-this a{color: #fff;}
 .header-ukefu .layui-nav .layui-this:after, 
-.header-ukefu .layui-nav-bar{background-color: #008d4c;}
+.header-ukefu .layui-nav-bar{background-color: #009688;}
 .header-ukefu .layui-nav .layui-this a{padding: 0 10px;}
 
 /* 鎼存洟鍎�*/
@@ -443,10 +443,10 @@ body .site-ukefu-nav .layui-nav-item{line-height: 40px}
 }
 
 .layui-tab-title li{
-	color:#32c24d;
+	color:#009688;
 }
 .layui-tab-title .layui-this{
-	color:#32c24d;
+	color:#009688;
 }
 .layui-layout-content{
 	height:100%;
@@ -507,7 +507,7 @@ body .site-ukefu-nav .layui-nav-item{line-height: 40px}
 	color:#FFFFFF;
 }
 .layui-layout-content  .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover {
-    background-color: #32c24d;
+    background-color: #009E94;
     color: #fff;
 }
 .layui-layout-content .layui-nav-tree .layui-nav-item .layui-nav-title{

@@ -2,15 +2,33 @@
 	<div class="wrap">
 	    <div class="content">
 	      <div class="fly-tab">
-	        <span>
-	          <a href="/" class="tab-this">全部</a>
-	          <a href="/finish.html">未结帖</a>
-	          <a href="/accept.html">已采纳</a>
-	          <a href="/essence.html">精帖</a>
-	          <#if user??>
-	          	<a href="/my.html">我的帖</a>
-	          </#if>
-	        </span>
+	        <!--<span>-->
+	          <!--<a href="/" class="tab-this">全部</a>-->
+	          <!--<a href="/finish.html">未结帖</a>-->
+	          <!--<a href="/accept.html">已采纳</a>-->
+	          <!--<a href="/essence.html">精帖</a>-->
+	          <!--<#if user??>-->
+	          	<!--<a href="/my.html">我的帖</a>-->
+	          <!--</#if>-->
+	        <!--</span>-->
+              <span>
+                    <ul class="layui-nav layui-bg-green">
+                        <li class="layui-nav-item"><a href="/">全部</a></li>
+                        <li class="layui-nav-item"><a href="/finish.html" <#if subtype?? && subtype == "finish">class="tab-this"</#if>>未结帖</a></li>
+                        <li class="layui-nav-item"><a href="/accept.html" <#if subtype?? && subtype == "accept">class="tab-this"</#if>>已采纳</a></li>
+                        <li class="layui-nav-item"><a href="/essence.html" <#if subtype?? && subtype == "essence">class="tab-this"</#if>>精帖</a></li>
+                        <#if user??>
+                            <li class="layui-nav-item"><a href="/my.html" <#if subtype?? && subtype == "my">class="tab-this"</#if>>我的帖</a></li>
+                      </#if>
+                    </ul>
+              </span>
+			  <script>
+                  layui.use('element', function(){
+                      var element = layui.element;
+
+                      //…
+                  });
+			  </script>
 	        <form action="/" class="fly-search">
 	          <i class="iconfont icon-sousuo"></i>
 	          <input class="layui-input" autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q" value="${RequestParameters['q']!''}">

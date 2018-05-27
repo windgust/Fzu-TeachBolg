@@ -161,9 +161,9 @@ pre{padding: 10px 15px; margin: 10px 0; font-size:12px; border:1px solid #ddd; b
 .fly-none p{margin-top: 50px; padding: 0 15px; font-size: 20px; color: #999; font-weight: 300;}
 
 /* 头部 */
-.header{position:fixed; z-index: 1000; left:0; top:0; width:100%; height:65px; background-color:#32c24d;}
+.header{position:fixed; z-index: 1000; left:0; top:0; width:100%; height:65px; background-color:#009688;}
 .header .main{position:relative; margin:0 auto; min-height: 0;}
-.logo{position:absolute; top: 13px; left:0; width: 135px; height: 37px; text-indent:-666px; -moz-background-size:contain;
+.logo{position:absolute; top: 15px; left:0; width: 135px; height: 37px;color:#fff; text-indent:0px; -moz-background-size:contain;
     -webkit-background-size:contain;
     -o-background-size:contain;
     background-size:contain;
@@ -239,11 +239,11 @@ body .layui-edit-face  .layui-layer-content{padding:0; background-color:#fff; co
 .fly-tab span,
 .fly-tab span a{display:inline-block; *display:inline; *zoom:1; vertical-align:top;}
 .fly-tab span{border:1px solid #009E94; border-right:none; font-size:0;}
-.fly-tab span a{ height: 36px; line-height: 36px; padding: 0 20px; border-right:1px solid #32c24d; font-size:14px;}
+.fly-tab span a{ height: 36px; line-height: 36px; padding: 0 20px; border-bottom:1px solid #009E94; font-size:14px;}
 .fly-tab .tab-this{background-color:#32c24d; color:#fff;}
 
 .layui-btn{
-	background-color: #32c24d;
+	background-color: #009688;
 }
 /* 右侧 - 雷锋榜 */
 body .leifeng-rank{width:110%; margin-top:10px; margin-bottom: 5px;}
@@ -565,7 +565,7 @@ body .leifeng-rank span a img{width: 50px; height: 50px; border-radius: 100%;}
 	float:left;
     width:200px;
     min-height:600px;	
-    background-color:#32c24d;
+    background-color:#009E94;
 }
 .ukefu-profile{
 	float:right;
@@ -573,7 +573,7 @@ body .leifeng-rank span a img{width: 50px; height: 50px; border-radius: 100%;}
     width: 970px;
 }
 .layui-nav{
-	background-color:#32c24d;
+	background-color:#009688;
 }
 .layui-nav-tree .layui-nav-item a:hover, .layui-nav-tree .layui-this a {
     background-color: #19a55d;
