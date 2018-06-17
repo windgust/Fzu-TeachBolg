@@ -22,9 +22,10 @@
 	  </a>
 
     <div class="nav">
-      <a class="nav-this" href="/">
-        <i class="iconfont icon-wenda"></i>超级无敌巨无霸diao炸天的论坛
-      </a>
+      	<ul class="layui-nav layui-bg-green" style="top: -11px;">
+            <li class="layui-nav-item"><a href="/">论坛</a></li>
+            <li class="layui-nav-item"><a href="/work/workFile.html">作业</a></li>
+        </ul>
     </div>
     <#if user??>
 	    <div class="nav-user">      
@@ -60,7 +61,7 @@
 <#include "${data.page}.html"/> 
 
 <div class="footer">
-  <p><a href="http://www.ukewo.cn/" target="_blank">福州大学论坛</a> 2018 &copy;</p>
+  <p><a href="http://www.fzu.edu.cn/" target="_blank">福州大学论坛</a> 2018 &copy;</p>
   <p>
     	福州大学论坛是一个轻量级的问答系统，基于Spring Boot构建
   </p>
