@@ -1,6 +1,7 @@
 package com.ukefu.ask.web.handler.work;
 
 import com.ukefu.ask.message.BaseMessage;
+import com.ukefu.ask.message.WorkMessage;
 import com.ukefu.ask.service.repository.WorkFileRepository;
 import com.ukefu.ask.web.handler.Handler;
 import com.ukefu.ask.web.model.User;
@@ -118,14 +119,30 @@ public class WorkFileController extends Handler {
     * */
     @ResponseBody
     @RequestMapping(value = "/find", produces = { "application/json;charset=UTF-8" })
-    public Page find(@RequestParam(value = "title",defaultValue = "")String title,
-                     @RequestParam(value = "curPage",defaultValue = "0")int curPage,
+    public WorkMessage find(@RequestParam(value = "title",defaultValue = "")String title,
+                     @RequestParam(value = "curPage",defaultValue = "1")int curPage,
                      @RequestParam(value = "pageSize",defaultValue = "10")int pageSize){
-        if (StringUtils.isBlank(title)){
-            return workFileRepository.findAll(new PageRequest(curPage,pageSize));
-        }else {
-            return workFileRepository.findByTitleLike("%"+title+"%",new PageRequest(curPage,pageSize));
+        Page page = null;
+        WorkMessage message = new WorkMessage();
+        try {
+            if (StringUtils.isBlank(title)){
+                page =  workFileRepository.findAll(new PageRequest(curPage - 1,pageSize));
+            }else {
+                page =  workFileRepository.findByTitleLike("%"+title+"%",new PageRequest(curPage - 1,pageSize));
+            }
+            message.msg = "success";
+            message.data = page.getContent();
+            message.curPage = curPage;
+            message.pageSize = pageSize;
+            message.count = (int) page.getTotalElements();
+            message.allPage = page.getTotalPages();
+
         }
+        catch (Exception e){
+            message.msg = "fail";
+            e.printStackTrace();
+        }
+        return message;
     }
 
     /*
