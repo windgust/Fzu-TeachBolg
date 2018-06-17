@@ -1,0 +1,116 @@
+<div class="main layui-clear">
+    
+    <div class="fly-tab">
+        <span>
+            <ul class="layui-nav layui-bg-green">
+                <li class="layui-nav-item"><a href="/work/workPublish">作业发布</a></li>
+                <li class="layui-nav-item"><a href="/work/workFile">作业列表</a></li>
+                <li class="layui-nav-item"><a href="/work/workDownload">资源下载</a></li>
+                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+            </ul>
+        </span>
+    </div>
+    <div class="result">
+        <table id="result" class="layui-table" >
+            <tr>
+                <th>用户id</th>
+                <th>标题</th>
+                <th>评分</th>
+                <th>作业</th>
+                <th>分数</th>
+            </tr>
+            <tr id="1">
+                <td>user1</td>
+                <td>aaaaaa</td>
+                <td><button onclick="showLabel(1)" class="layui-btn">评分</button></td>
+                <td><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">作业</a></td>
+                <td></td>
+            </tr>
+            <tr id="2">
+                <td>user2</td>
+                <td>bbbbbbbbbb</td>
+                <td><button onclick="showLabel(2)" class="layui-btn">评分</button></td>
+                <td><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">作业</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="scoring" style="padding: 70px 20px;display: none;">
+    <div>
+        <form action="/" method="post">
+            <div class="layui-form-item">
+                <label for="title" class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" id="title" name="title" required lay-verify="required" autocomplete="off" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="score" class="layui-form-label">分数</label>
+                <div class="layui-input-block">
+                    <input type="text" id="score" name="score" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-center">
+                <button style="margin-left: 165px" class="layui-btn" lay-filter="*" lay-submit onclick="if(layedit){layedit.sync(index);setScore()}">立即发布</button>
+            </div>
+        </form> 
+
+    </div>
+</div>
+<script>
+function post(url, data, callback){
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType:"JSON",
+        data:  data ||'',
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: callback
+    });
+}
+
+post("http://localhost/work/find",null,function (ret) {
+    console.log(ret);
+    if(ret.msg == "success"){
+        var data = ret.data;
+        for (var i = 0; i < data.length; i++){
+            $("#result").append('' +
+                '<tr>\n' +
+                '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
+                '\t\t\t\t<th >'+data[i].title+'</th>\n' +
+                '\t\t\t\t<th >'+data[i].score+'</th>\n' +
+                '\t\t\t\t<th >'+data[i].download+'</th>\n' +
+                '\t\t\t\t<th ><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">作业</a></th>\n' +
+                '\t\t\t</tr>');
+        }
+
+    }
+})
+layui.use('element','layer','form', function(){
+    var element = layui.element;
+    var form = layui.form() ;
+    var layer = layui.layer;
+    //…s
+});
+var constId;
+function showLabel(id){
+    constId = id;
+    var work = $("#"+id)
+    $("#title").attr("value",work.children().eq(1).text())
+    console.log(work.children().eq(1).text())
+    console.log(id)
+        layer.open({
+          title: '评分 ' + work.children().eq(0).text(), 
+          type: 1,
+          area: ['460px', '350px'],
+          content: $('#scoring') 
+        });
+function setScore(){
+    $("#"+constId).children().eq(4).html()
+}
+}
+</script>

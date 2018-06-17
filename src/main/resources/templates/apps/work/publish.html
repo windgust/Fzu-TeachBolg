@@ -1,0 +1,75 @@
+<div class="main layui-clear">
+	<div class="fly-tab">
+		<span>
+            <ul class="layui-nav layui-bg-green">
+                <li class="layui-nav-item"><a href="/work/workPublish">作业发布</a></li>
+                <li class="layui-nav-item"><a href="/work/workFile">作业列表</a></li>
+                <li class="layui-nav-item"><a href="/work/workDownload">资源下载</a></li>
+                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+            </ul>
+      	</span>
+	</div>
+	<h2 class="page-title">作业发布</h2>
+	  
+	  <!-- <div class="fly-none">并无权限</div> -->
+	
+	  <div class="layui-form layui-form-pane">
+	    <form action="/topic/save.html" method="post">
+	      <div class="layui-form-item">
+	        <label for="L_title" class="layui-form-label">题目</label>
+	        <div class="layui-input-block">
+	          <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+	        </div>
+	      </div>
+	      <div class="layui-form-item layui-form-text">
+	        <div class="layui-input-block">
+	          <textarea id="content" name="content" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 160px;"></textarea>
+	        </div>
+	        <label for="content" class="layui-form-label" style="top: -2px;">作业要求</label>
+	      </div>
+	      <div class="layui-form-item">
+	        <div class="layui-inline">
+	          <label class="layui-form-label">所在类别</label>
+	          <div class="layui-input-block">
+	            <select lay-verify="required" name="cate">
+	              <option></option>
+	              <option value="default" selected="selected">默认分类</option> 
+	            </select>
+	          </div>
+	        </div>
+	      </div>
+          <div class="layui-form-item">
+	           <button type="button" class="layui-btn" id="homeworkUpload"><i class="layui-icon"></i>上传文件</button>
+          </div>
+	      <div class="layui-form-item">
+	        <button class="layui-btn" lay-filter="*" lay-submit onclick="if(layedit){layedit.sync(index);}">立即发布</button>
+	      </div>
+	    </form>
+	  </div>
+	</div>
+</div>
+<script>
+var layedit  , index, upload;
+layui.use(['form' , 'layedit','upload'], function(){
+  var form = layui.form() ;
+  upload = layui.upload;
+  layedit = layui.layedit;
+  layedit.set({
+	  uploadImage: {
+	    url: '/topic/upload.html' //接口url
+	    ,type: 'post' //默认post
+	  }
+  });
+  index = layedit.build('content'); //建立编辑器
+});
+var uploadInst = upload.render({
+        elem: '#homeworkUpload' //绑定元素
+        ,url: '/upload/' //上传接口
+        ,done: function(res ){
+            //上传完毕回调
+        }
+        ,error: function(){
+            //请求异常回调
+        }
+    });
+</script>

@@ -38,13 +38,43 @@ public class WorkFileController extends Handler {
     private String path;
 
     /*
-    * 返回作业页面
+    * 返回已提交页面
     * */
     @RequestMapping("/workFile")
     @Menu(type = "apps" , subtype = "work" , access = false)
     public ModelAndView workFile(HttpServletRequest request , HttpServletResponse response) {
         //返回templates目录下的html
-        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/workFile")) ;
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/file")) ;
+        return view;
+    }
+    /*
+    * 返回作业发布页面
+    * */
+    @RequestMapping("/workPublish")
+    @Menu(type = "apps" , subtype = "work" , access = false)
+    public ModelAndView workList(HttpServletRequest request , HttpServletResponse response) {
+        //返回templates目录下的html
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/publish")) ;
+        return view;
+    }
+    /*
+    * 返回资源下载页面
+    * */
+    @RequestMapping("/workDownload")
+    @Menu(type = "apps" , subtype = "work" , access = false)
+    public ModelAndView workDownload(HttpServletRequest request , HttpServletResponse response) {
+        //返回templates目录下的html
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/download")) ;
+        return view;
+    }
+    /*
+    * 返回资源下载页面
+    * */
+    @RequestMapping("/workScore")
+    @Menu(type = "apps" , subtype = "work" , access = false)
+    public ModelAndView workScore(HttpServletRequest request , HttpServletResponse response) {
+        //返回templates目录下的html
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/score")) ;
         return view;
     }
 

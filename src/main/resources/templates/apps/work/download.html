@@ -1,0 +1,59 @@
+<div class="main layui-clear">
+    <div class="fly-tab">
+        <span>
+            <ul class="layui-nav layui-bg-green">
+                <li class="layui-nav-item"><a href="/work/workPublish">作业发布</a></li>
+                <li class="layui-nav-item"><a href="/work/workFile">作业列表</a></li>
+                <li class="layui-nav-item"><a href="/work/workDownload">资源下载</a></li>
+                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+            </ul>
+        </span>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md9">
+            <ul>
+                <#list downloadFiles.content as file>
+                <li style="margin-bottom: 20px;">
+                    <div class="layui-tab-card" style="padding: 10px;">
+                        <div class="layui-tab-card-header">${file.title!''}</div>
+                        <hr/>
+                        <div class="layui-tab-card-body">${file.content!''}</div>
+                        <hr/>
+                        <div class="layui-tab-card-footer"><a style="float: right;" href="${file.url!''}">下载</a></div>
+                        <div class="layui-clear"></div>
+                    </div>
+                </li>
+                </#list>
+                <li style="margin-bottom: 20px;">
+                    <div class="layui-tab-card" style="padding: 10px;">
+                        <div class="layui-tab-card-header">作业Title</div>
+                        <hr/>
+                        <div class="layui-tab-card-body">
+                            作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容
+                        </div>
+                        <hr/>
+                        <div class="layui-tab-card-footer"><a style="float: right;" href="/">下载</a></div>
+                        <div class="layui-clear"></div>
+                    </div>
+                </li>
+                <li style="margin-bottom: 20px;">
+                    <div class="layui-tab-card" style="padding: 10px;">
+                        <div class="layui-tab-card-header">作业Title2</div>
+                        <hr/>
+                        <div class="layui-tab-card-body">
+                            作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容
+                        </div>
+                        <hr/>
+                        <div class="layui-tab-card-footer"><a style="float: right;" href="/">下载</a></div>
+                        <div class="layui-clear"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<script>
+    //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+
+</script>
