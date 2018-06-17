@@ -7,15 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="990c245d-63a2-4445-9db5-ba234bb84a59" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/ukefu/ask/util/disruptor/UserHistoryEventProducer.class" afterPath="$PROJECT_DIR$/target/classes/com/ukefu/ask/util/disruptor/UserHistoryEventProducer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/ukefu/util/FFmpegCmdExecuter.class" afterPath="$PROJECT_DIR$/target/classes/com/ukefu/util/FFmpegCmdExecuter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/ukefu/util/metadata/DatabaseMetaDataHandler.class" afterPath="$PROJECT_DIR$/target/classes/com/ukefu/util/metadata/DatabaseMetaDataHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/ukefu/util/metadata/UKDatabaseMetadata.class" afterPath="$PROJECT_DIR$/target/classes/com/ukefu/util/metadata/UKDatabaseMetadata.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/ukefu/util/metadata/UKTableMetaData.class" afterPath="$PROJECT_DIR$/target/classes/com/ukefu/util/metadata/UKTableMetaData.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ask.iml" afterPath="$PROJECT_DIR$/ask.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/apps/include/tpl.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/apps/include/tpl.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/apps/include/tpl.html" afterPath="$PROJECT_DIR$/target/classes/templates/apps/include/tpl.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/apps/work/workFile.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/apps/work/workFile.html" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1031,7 +1023,7 @@
       <workItem from="1528384262180" duration="1297000" />
       <workItem from="1528424287243" duration="106000" />
       <workItem from="1529161701514" duration="382000" />
-      <workItem from="1529203289478" duration="8080000" />
+      <workItem from="1529203289478" duration="8668000" />
     </task>
     <task id="LOCAL-00001" summary="version1.0">
       <created>1522398115703</created>
@@ -1085,7 +1077,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86342000" />
+    <option name="totallyTimeSpent" value="86930000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">

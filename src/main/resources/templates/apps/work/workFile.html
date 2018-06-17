@@ -1,58 +1,30 @@
 <div class="main layui-clear">
-	<div class="layui-button-container">
-		<button class="layui-btn" onclick="test()"></button>
+	<div class="fly-tab">
+		<span>
+            <ul class="layui-nav layui-bg-green">
+                <li class="layui-nav-item"><a href="/">作业列表</a></li>
+                <li class="layui-nav-item"><a href="/">已上交</a></li>
+                <li class="layui-nav-item"><a href="/">资源下载</a></li>
+            </ul>
+      	</span>
 	</div>
-	<a href="/find">sssssss</a>
+	<div class="layui-row">
+	    <div class="layui-col-md9">
+	      	<ul>
+				<li>
+					<div class="layui-card">
+					  	<div class="layui-card-header">作业</div>
+					  	<div class="layui-card-body">
+					  	  作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容作业内容
+					  	</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+  	</div>
+	
 </div>
 <script src="../../../static/js/jquery-1.10.2.min.js"></script>
 <script>
-	function test(){ 
-  var ajaxData = { 
-    type:arguments[0].type || "GET", 
-    url:arguments[0].url || "http://localhost/work/find", 
-    async:arguments[0].async || "true", 
-    data:arguments[0].data || null, 
-    dataType:arguments[0].dataType || "text", 
-    contentType:arguments[0].contentType || "application/x-www-form-urlencoded", 
-    beforeSend:arguments[0].beforeSend || function(){}, 
-    success:arguments[0].success || function(){}, 
-    error:arguments[0].error || function(){} 
-  } 
-  ajaxData.beforeSend() 
-  var xhr = createxmlHttpRequest();  
-  xhr.responseType=ajaxData.dataType; 
-  xhr.open(ajaxData.type,ajaxData.url,ajaxData.async);  
-  xhr.setRequestHeader("Content-Type",ajaxData.contentType);  
-  xhr.send(convertData(ajaxData.data));  
-  xhr.onreadystatechange = function() {  
-    if (xhr.readyState == 4) {  
-      if(xhr.status == 200){ 
-        ajaxData.success(xhr.response) 
-      }else{ 
-        ajaxData.error() 
-      }  
-    } 
-  }  
-} 
-  
-function createxmlHttpRequest() {  
-  if (window.ActiveXObject) {  
-    return new ActiveXObject("Microsoft.XMLHTTP");  
-  } else if (window.XMLHttpRequest) {  
-    return new XMLHttpRequest();  
-  }  
-} 
-  
-function convertData(data){ 
-  if( typeof data === 'object' ){ 
-    var convertResult = "" ;  
-    for(var c in data){  
-      convertResult+= c + "=" + data[c] + "&";  
-    }  
-    convertResult=convertResult.substring(0,convertResult.length-1) 
-    return convertResult; 
-  }else{ 
-    return data; 
-  } 
-}
+	
 </script>
