@@ -16,29 +16,15 @@
                 <th>用户id</th>
                 <th>标题</th>
                 <th>评分</th>
-                <th>作业</th>
+                <th>下载</th>
                 <th>分数</th>
-            </tr>
-            <tr id="1">
-                <td>user1</td>
-                <td>aaaaaa</td>
-                <td><button onclick="showLabel(1)" class="layui-btn">评分</button></td>
-                <td><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">作业</a></td>
-                <td></td>
-            </tr>
-            <tr id="2">
-                <td>user2</td>
-                <td>bbbbbbbbbb</td>
-                <td><button onclick="showLabel(2)" class="layui-btn">评分</button></td>
-                <td><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">作业</a></td>
-                <td></td>
             </tr>
         </table>
     </div>
 </div>
 <div id="scoring" style="padding: 70px 20px;display: none;">
     <div>
-        <form action="/" method="post">
+        <form id="form-score" action="" method="post">
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label">标题</label>
                 <div class="layui-input-block">
@@ -51,15 +37,15 @@
                     <input type="text" id="score" name="score" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item layui-center">
-                <button style="margin-left: 165px" class="layui-btn" lay-filter="*" lay-submit onclick="if(layedit){layedit.sync(index);setScore()}">立即发布</button>
-            </div>
         </form> 
-
+        <div class="layui-center">
+            <button id="check-score" style="margin-left: 165px" class="layui-btn">立即发布</button>
+        </div>
     </div>
 </div>
 <script>
-function post(url, data, callback){
+post = function (url, data, callback){
+    console.log(url)
     $.ajax({
         url: url,
         type: 'POST',
@@ -77,14 +63,15 @@ post("http://localhost/work/find",null,function (ret) {
     console.log(ret);
     if(ret.msg == "success"){
         var data = ret.data;
+        console.log(data)
         for (var i = 0; i < data.length; i++){
             $("#result").append('' +
-                '<tr>\n' +
+                '<tr id="' + data[i].id + '">\n' +
                 '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
                 '\t\t\t\t<th >'+data[i].title+'</th>\n' +
-                '\t\t\t\t<th >'+data[i].score+'</th>\n' +
+                `\t\t\t\t<td><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></td>` + 
                 '\t\t\t\t<th >'+data[i].download+'</th>\n' +
-                '\t\t\t\t<th ><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">作业</a></th>\n' +
+                '\t\t\t\t<th >'+data[i].score+'</th>\n' +
                 '\t\t\t</tr>');
         }
 
@@ -98,6 +85,7 @@ layui.use('element','layer','form', function(){
 });
 var constId;
 function showLabel(id){
+    document.getElementById('form-score').action = "/work/check/" + id
     constId = id;
     var work = $("#"+id)
     $("#title").attr("value",work.children().eq(1).text())
@@ -109,8 +97,16 @@ function showLabel(id){
           area: ['460px', '350px'],
           content: $('#scoring') 
         });
-function setScore(){
-    $("#"+constId).children().eq(4).html()
 }
-}
+$('#check-score').click(function(){
+    post("http://localhost/work/check/" + constId, $('#form-score').serialize(),function(result){
+        console.log(result)
+    })
+    window.location.reload()
+})
+// setScore = function(){
+//     post("http://localhost/work/check" + constId, $('#form-score').serialize(),function(result){
+//         console.log(result)
+//     })
+// }
 </script>
