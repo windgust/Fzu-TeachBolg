@@ -77,6 +77,36 @@ public class WorkFileController extends Handler {
         ModelAndView view = request(super.createAppsTempletResponse("/apps/work/score")) ;
         return view;
     }
+    /*
+    * 返回作业提交页面
+    * */
+    @RequestMapping("/handIn")
+    @Menu(type = "apps" , subtype = "work" , access = false)
+    public ModelAndView handIn(HttpServletRequest request , HttpServletResponse response) {
+        //返回templates目录下的html
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/handIn")) ;
+        return view;
+    }
+    /*
+    * 返回作业提交页面
+    * */
+    @RequestMapping("/sourceUpload")
+    @Menu(type = "apps" , subtype = "work" , access = false)
+    public ModelAndView sourceUpload(HttpServletRequest request , HttpServletResponse response) {
+        //返回templates目录下的html
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/sourceUpload")) ;
+        return view;
+    }
+    /*
+    * 返回我的提交页面
+    * */
+    @RequestMapping("/myFiles")
+    @Menu(type = "apps" , subtype = "work" , access = false)
+    public ModelAndView myFiles(HttpServletRequest request , HttpServletResponse response) {
+        //返回templates目录下的html
+        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/myFiles")) ;
+        return view;
+    }
 
     /*
     * 下载作业
@@ -107,7 +137,7 @@ public class WorkFileController extends Handler {
     * */
     @ResponseBody
     @RequestMapping(value = "/save", produces = { "application/json;charset=UTF-8" })
-    public BaseMessage save(@RequestParam(value = "title")String title,
+    public BaseMessage save(@RequestParam(value = "title")String title,@RequestParam(value = "content")String content,
                             @RequestParam(value = "file", required = false) MultipartFile file,
                             HttpServletRequest request){
         BaseMessage message = new BaseMessage();
@@ -131,6 +161,7 @@ public class WorkFileController extends Handler {
             workFile.setUptime(System.currentTimeMillis());
             workFile.setFileUrl(imgid);
             workFile.setTitle(title);
+            workFile.setContent(content);
             workFileRepository.save(workFile);
         }
         catch (Exception e){

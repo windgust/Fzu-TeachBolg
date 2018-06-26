@@ -17,6 +17,7 @@ public class WorkFile {
     private int download = 0;  //下载量
     private long uptime;  //上传时间
     private String title;  //作业标题
+    private String content; //作业内容
 
     @Id
     @Column(length = 32)
@@ -80,6 +81,14 @@ public class WorkFile {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override

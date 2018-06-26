@@ -1,3 +1,4 @@
+<!-- 资源上传表 老师可以上传资源学生下载 -->
 <div class="main layui-clear">
 	<div class="fly-tab">
 		<span>
@@ -15,14 +16,14 @@
             </ul>
       	</span>
 	</div>
-	<h2 class="page-title">作业发布</h2>
+	<h2 class="page-title">资源上传</h2>
 	  
 	  <!-- <div class="fly-none">并无权限</div> -->
 	
 	  <div class="layui-form layui-form-pane">
-	    <form action="/work/save" method="post" enctype="multipart/form-data">
+	    <form action="/work/sourceUpload" method="post" enctype="multipart/form-data">
 	      <div class="layui-form-item">
-	        <label for="L_title" class="layui-form-label">题目</label>
+	        <label for="L_title" class="layui-form-label">文件标题</label>
 	        <div class="layui-input-block">
 	          <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
 	        </div>
@@ -31,24 +32,13 @@
 	        <div class="layui-input-block">
 	          <textarea id="content" name="content" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 160px;"></textarea>
 	        </div>
-	        <label for="content" class="layui-form-label" style="top: -2px;">作业要求</label>
-	      </div>
-	      <div class="layui-form-item">
-	        <div class="layui-inline">
-	          <label class="layui-form-label">所在类别</label>
-	          <div class="layui-input-block">
-	            <select lay-verify="required" name="cate">
-	              <option></option>
-	              <option value="default" selected="selected">默认分类</option> 
-	            </select>
-	          </div>
-	        </div>
+	        <label for="content" class="layui-form-label" style="top: -2px;">说明</label>
 	      </div>
           <div class="layui-form-item">
 	           <input type="file" name="file"> 
           </div>
 	      <div class="layui-form-item">
-	        <button class="layui-btn" lay-filter="*" lay-submit onclick="if(layedit){layedit.sync(index);}">立即发布</button>
+	        <button class="layui-btn" lay-filter="*" lay-submit onclick="if(layedit){layedit.sync(index);}">上传</button>
 	      </div>
 	    </form>
 	  </div>
@@ -62,6 +52,7 @@ layui.use(['form' , 'layedit','upload'], function(){
   
   layedit.set({
 	  uploadImage: {
+	  	//这个接口还没有改
 	    url: '/work/upload.html' //接口url
 	    ,type: 'post' //默认post
 	  }

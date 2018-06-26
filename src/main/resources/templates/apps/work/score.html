@@ -3,23 +3,23 @@
     <div class="fly-tab">
         <span>
             <ul class="layui-nav layui-bg-green">
+                <#if user?? && user.usertype?? && user.usertype == "0">
                 <li class="layui-nav-item"><a href="/work/workPublish">作业发布</a></li>
+                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+                <li class="layui-nav-item"><a href="/work/sourceUpload">资源上传</a></li>
+                </#if>
                 <li class="layui-nav-item"><a href="/work/workFile">作业列表</a></li>
                 <li class="layui-nav-item"><a href="/work/workDownload">资源下载</a></li>
-                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+                <#if user?? && user.usertype?? && user.usertype == "1">
+                <li class="layui-nav-item"><a href="/work/myFiles">我的提交</a></li>
+                </#if>
             </ul>
         </span>
     </div>
+    <h2 class="page-title">作业评分</h2>
     <div class="result">
-        <table id="result" class="layui-table" >
-            <tr>
-                <th>用户id</th>
-                <th>标题</th>
-                <th>评分</th>
-                <th>下载</th>
-                <th>分数</th>
-            </tr>
-        </table>
+        <ul id="result">
+        </ul>
     </div>
 </div>
 <div id="scoring" style="padding: 70px 20px;display: none;">
@@ -35,6 +35,12 @@
                 <label for="score" class="layui-form-label">分数</label>
                 <div class="layui-input-block">
                     <input type="text" id="score" name="score" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="comment" class="layui-form-label">评价</label>
+                <div class="layui-input-block">
+                    <textarea type="text" id="score" name="comment" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 160px;"></textarea>
                 </div>
             </div>
         </form> 
@@ -59,20 +65,38 @@ post = function (url, data, callback){
     });
 }
 
-post("http://localhost/work/find",null,function (ret) {
+post("http://localhost/work/checkList",null,function (ret) {
     console.log(ret);
     if(ret.msg == "success"){
         var data = ret.data;
         console.log(data)
         for (var i = 0; i < data.length; i++){
             $("#result").append('' +
-                '<tr id="' + data[i].id + '">\n' +
-                '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
-                '\t\t\t\t<th >'+data[i].title+'</th>\n' +
-                `\t\t\t\t<td><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></td>` + 
-                '\t\t\t\t<th >'+data[i].download+'</th>\n' +
-                '\t\t\t\t<th >'+data[i].score+'</th>\n' +
-                '\t\t\t</tr>');
+                // '<tr id="' + data[i].id + '">\n' +
+                // '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
+                // '\t\t\t\t<th >'+data[i].title+'</th>\n' +
+                // `\t\t\t\t<td><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></td>` + 
+                // '\t\t\t\t<th >'+data[i].download+'</th>\n' +
+                // '\t\t\t\t<th >'+data[i].score+'</th>\n' +
+                // '\t\t\t</tr>');
+                // $("#result").append('' +
+                `<li style="margin-bottom: 20px;">
+                    <div class="layui-tab-card" style="padding: 10px;">
+                        <div class="layui-tab-card-header">` +
+                        `<div id="` + data[i].id + `" style="float: left;">`+data[i].title+`</div>` + 
+                        `<div style="float: right;font-size: 32px;line-height: 40px;color: #67C23A;">分数：`+data[i].score+`</div>` + 
+                        `<div style="clear: both;"></div>` +
+                        `</div>
+                        <hr/>
+                        <div class="layui-tab-card-body detail-body" style="height: 100px;">
+                            ` + data[i].content + `
+                        </div>
+                        <hr/>
+                        <div class="layui-tab-card-footer"><div style="float: right;"><button class="layui-btn">下载作业</button><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></div></div>
+                        <div class="layui-clear"></div>
+                    </div>
+                </li>`
+                );
         }
 
     }
@@ -88,13 +112,13 @@ function showLabel(id){
     document.getElementById('form-score').action = "/work/check/" + id
     constId = id;
     var work = $("#"+id)
-    $("#title").attr("value",work.children().eq(1).text())
-    console.log(work.children().eq(1).text())
+    $("#title").attr("value",work.text())
+    console.log(work.text())
     console.log(id)
         layer.open({
-          title: '评分 ' + work.children().eq(0).text(), 
+          title: '评分 ',// + work.children().eq(0).text(), 
           type: 1,
-          area: ['460px', '350px'],
+          area: ['460px', '550px'],
           content: $('#scoring') 
         });
 }

@@ -1,10 +1,1 @@
 target/
-target/classes/com/ukefu/ask/util/disruptor/UserHistoryEventProducer.class
-target/classes/com/ukefu/ask/util/disruptor/UserHistoryEventProducer.class
-target/classes/com/ukefu/util/FFmpegCmdExecuter.class
-target/classes/com/ukefu/util/metadata/DatabaseMetaDataHandler.class
-target/classes/com/ukefu/util/metadata/UKTableMetaData.class
-*.class
-*.xml
-target/classes/com/ukefu/ask/util/disruptor/UserHistoryEventProducer.class
-target/classes/com/ukefu/util/FFmpegCmdExecuter.class
