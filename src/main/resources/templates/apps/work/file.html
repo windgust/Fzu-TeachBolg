@@ -1,0 +1,68 @@
+<div class="main layui-clear">
+    <div class="fly-tab">
+        <span>
+            <ul class="layui-nav layui-bg-green">
+                <#if user?? && user.usertype?? && user.usertype == "0">
+                <li class="layui-nav-item"><a href="/work/workPublish">作业发布</a></li>
+                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+                <li class="layui-nav-item"><a href="/work/sourceUpload">资源上传</a></li>
+                </#if>
+                <li class="layui-nav-item"><a href="/work/workFile">作业列表</a></li>
+                <li class="layui-nav-item"><a href="/work/workDownload">资源下载</a></li>
+                <#if user?? && user.usertype?? && user.usertype == "1">
+                <li class="layui-nav-item"><a href="/work/myFiles">我的提交</a></li>
+                </#if>
+            </ul>
+        </span>
+    </div>
+    <h2 class="page-title">作业列表</h2>
+    <div class="layui-row">
+        <div class="layui-col-md9">
+            <ul id="result">
+                
+            </ul>
+        </div>
+    </div>
+
+</div>
+<script>
+function post(url, data, callback){
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType:"JSON",
+        data:  data ||'',
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: callback
+    });
+}
+post("http://localhost/work/find",null,function (ret) {
+    console.log(ret);
+    if(ret.msg == "success"){
+        var data = ret.data;
+        for (var i = 0; i < data.length; i++){
+            $("#result").append('' +
+                `<li style="margin-bottom: 20px;">
+                    <div class="layui-tab-card" style="padding: 10px;">
+                        <div class="layui-tab-card-header">`+data[i].title+`</div>
+                        <hr/>
+                        <div class="layui-tab-card-body detail-body">
+                            ` + data[i].content + `
+                        </div>
+                        <hr/>
+                        <div class="layui-tab-card-footer"><a style="float: right;" a href="http://localhost/work/handIn/">提交</a></div>
+                        <div class="layui-clear"></div>
+                    </div>
+                </li>`
+
+                );
+        }
+
+    }
+})
+    
+
+</script>

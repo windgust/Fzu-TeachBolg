@@ -1,4 +1,4 @@
-/*
+﻿/*
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
@@ -12,7 +12,9 @@ File Encoding         : 65001
 
 Date: 2017-03-15 22:05:04
 */
-
+DROP DATABASE IF EXISTS `ukefu`;
+CREATE DATABASE ukefu;
+USE ukefu;
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------

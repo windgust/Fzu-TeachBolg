@@ -442,4 +442,49 @@ public class User implements UKAgg{
 	public void setKey(String key) {
 		this.key = key;
 	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id='" + id + '\'' +
+				", sessionid='" + sessionid + '\'' +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", email='" + email + '\'' +
+				", uname='" + uname + '\'' +
+				", firstname='" + firstname + '\'' +
+				", midname='" + midname + '\'' +
+				", lastname='" + lastname + '\'' +
+				", language='" + language + '\'' +
+				", jobtitle='" + jobtitle + '\'' +
+				", title='" + title + '\'' +
+				", department='" + department + '\'' +
+				", gender='" + gender + '\'' +
+				", mobile='" + mobile + '\'' +
+				", birthday='" + birthday + '\'' +
+				", nickname='" + nickname + '\'' +
+				", secureconf='" + secureconf + '\'' +
+				", usertype='" + usertype + '\'' +
+				", orgi='" + orgi + '\'' +
+				", creater='" + creater + '\'' +
+				", createtime=" + createtime +
+				", passupdatetime=" + passupdatetime +
+				", updatetime=" + updatetime +
+				", memo='" + memo + '\'' +
+				", organ='" + organ + '\'' +
+				", agent=" + agent +
+				", skill='" + skill + '\'' +
+				", city='" + city + '\'' +
+				", province='" + province + '\'' +
+				", login=" + login +
+				", rowcount=" + rowcount +
+				", key='" + key + '\'' +
+				", lastlogintime=" + lastlogintime +
+				", fans=" + fans +
+				", follows=" + follows +
+				", integral=" + integral +
+				", status='" + status + '\'' +
+				", deactivetime=" + deactivetime +
+				'}';
+	}
 }

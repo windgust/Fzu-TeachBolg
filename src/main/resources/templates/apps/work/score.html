@@ -1,0 +1,136 @@
+<div class="main layui-clear">
+    
+    <div class="fly-tab">
+        <span>
+            <ul class="layui-nav layui-bg-green">
+                <#if user?? && user.usertype?? && user.usertype == "0">
+                <li class="layui-nav-item"><a href="/work/workPublish">作业发布</a></li>
+                <li class="layui-nav-item"><a href="/work/workScore">作业评分</a></li>
+                <li class="layui-nav-item"><a href="/work/sourceUpload">资源上传</a></li>
+                </#if>
+                <li class="layui-nav-item"><a href="/work/workFile">作业列表</a></li>
+                <li class="layui-nav-item"><a href="/work/workDownload">资源下载</a></li>
+                <#if user?? && user.usertype?? && user.usertype == "1">
+                <li class="layui-nav-item"><a href="/work/myFiles">我的提交</a></li>
+                </#if>
+            </ul>
+        </span>
+    </div>
+    <h2 class="page-title">作业评分</h2>
+    <div class="result">
+        <ul id="result">
+        </ul>
+    </div>
+</div>
+<div id="scoring" style="padding: 70px 20px;display: none;">
+    <div>
+        <form id="form-score" action="" method="post">
+            <div class="layui-form-item">
+                <label for="title" class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" id="title" name="title" required lay-verify="required" autocomplete="off" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="score" class="layui-form-label">分数</label>
+                <div class="layui-input-block">
+                    <input type="text" id="score" name="score" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="comment" class="layui-form-label">评价</label>
+                <div class="layui-input-block">
+                    <textarea type="text" id="score" name="comment" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 160px;"></textarea>
+                </div>
+            </div>
+        </form> 
+        <div class="layui-center">
+            <button id="check-score" style="margin-left: 165px" class="layui-btn">立即发布</button>
+        </div>
+    </div>
+</div>
+<script>
+post = function (url, data, callback){
+    console.log(url)
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType:"JSON",
+        data:  data ||'',
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: callback
+    });
+}
+
+post("http://localhost/work/checkList",null,function (ret) {
+    console.log(ret);
+    if(ret.msg == "success"){
+        var data = ret.data;
+        console.log(data)
+        for (var i = 0; i < data.length; i++){
+            $("#result").append('' +
+                // '<tr id="' + data[i].id + '">\n' +
+                // '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
+                // '\t\t\t\t<th >'+data[i].title+'</th>\n' +
+                // `\t\t\t\t<td><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></td>` + 
+                // '\t\t\t\t<th >'+data[i].download+'</th>\n' +
+                // '\t\t\t\t<th >'+data[i].score+'</th>\n' +
+                // '\t\t\t</tr>');
+                // $("#result").append('' +
+                `<li style="margin-bottom: 20px;">
+                    <div class="layui-tab-card" style="padding: 10px;">
+                        <div class="layui-tab-card-header">` +
+                        `<div id="` + data[i].id + `" style="float: left;">`+data[i].title+`</div>` + 
+                        `<div style="float: right;font-size: 32px;line-height: 40px;color: #67C23A;">分数：`+data[i].score+`</div>` + 
+                        `<div style="clear: both;"></div>` +
+                        `</div>
+                        <hr/>
+                        <div class="layui-tab-card-body detail-body" style="height: 100px;">
+                            ` + data[i].content + `
+                        </div>
+                        <hr/>
+                        <div class="layui-tab-card-footer"><div style="float: right;"><button class="layui-btn">下载作业</button><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></div></div>
+                        <div class="layui-clear"></div>
+                    </div>
+                </li>`
+                );
+        }
+
+    }
+})
+layui.use('element','layer','form', function(){
+    var element = layui.element;
+    var form = layui.form() ;
+    var layer = layui.layer;
+    //…s
+});
+var constId;
+function showLabel(id){
+    document.getElementById('form-score').action = "/work/check/" + id
+    constId = id;
+    var work = $("#"+id)
+    $("#title").attr("value",work.text())
+    console.log(work.text())
+    console.log(id)
+        layer.open({
+          title: '评分 ',// + work.children().eq(0).text(), 
+          type: 1,
+          area: ['460px', '550px'],
+          content: $('#scoring') 
+        });
+}
+$('#check-score').click(function(){
+    post("http://localhost/work/check/" + constId, $('#form-score').serialize(),function(result){
+        console.log(result)
+    })
+    window.location.reload()
+})
+// setScore = function(){
+//     post("http://localhost/work/check" + constId, $('#form-score').serialize(),function(result){
+//         console.log(result)
+//     })
+// }
+</script>

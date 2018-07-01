@@ -2,15 +2,35 @@
 	<div class="wrap">
 	    <div class="content" style="margin-right:0px;">
 	      <div class="fly-tab">
+              <span>
+			<ul class="layui-nav layui-bg-green">
+				<li class="layui-nav-item"><a href="/">全部</a></li>
+				<li class="layui-nav-item"><a href="/finish.html" <#if subtype?? && subtype == "finish">class="tab-this"</#if>>未结帖</a></li>
+				<li class="layui-nav-item"><a href="/accept.html" <#if subtype?? && subtype == "accept">class="tab-this"</#if>>已采纳</a></li>
+				<li class="layui-nav-item"><a href="/essence.html" <#if subtype?? && subtype == "essence">class="tab-this"</#if>>精帖</a></li>
+                <#if user??>
+                    <li class="layui-nav-item"><a href="/my.html" <#if subtype?? && subtype == "my">class="tab-this"</#if>>我的帖</a></li>
+	          </#if>
+		  	</ul>
+              </span>
+              <script>
+                  //注意：导航 依赖 element 模块，否则无法进行功能性操作
+                  layui.use('element', function(){
+                      var element = layui.element;
+
+                      //…
+                  });
+                </script>
+              <!--
 	        <span>
 	          <a href="/">全部</a>
 	          <a href="/finish.html" <#if subtype?? && subtype == "finish">class="tab-this"</#if>>未结帖</a>
 	          <a href="/accept.html" <#if subtype?? && subtype == "accept">class="tab-this"</#if>>已采纳</a>
 	          <a href="/essence.html" <#if subtype?? && subtype == "essence">class="tab-this"</#if>>精帖</a>
-	          <#if user??>
-	          	<a href="/my.html" <#if subtype?? && subtype == "my">class="tab-this"</#if>>我的帖</a>
-	          </#if>
+
+
 	        </span>
+	        -->
 	        <form action="/" class="fly-search">
 	          <i class="iconfont icon-sousuo"></i>
 	          <input class="layui-input" autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q" value="${RequestParameters['q']!''}">
@@ -65,7 +85,7 @@
 		    ,last:'末页'
 		    ,pages: ${defaultTopicList.totalPages}
 		    ,curr:${defaultTopicList.number+1}
-		    ,skin: '#32c24d'
+		    ,skin: '#009688'
 		    ,jump:function(obj, first){
 		    	var curr = obj.curr;
 		    	if(!first){

@@ -3,11 +3,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>优客问答系统</title>
-  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?t=${.now?long}"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="ukefu,uckefu,优客服,优客,UC客服,在线客服,WebIM,问答系统,ASK">
-  <meta name="description" content="优客问答社区系统是一个轻量级问答系统">
+  <title>福州大学论坛</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon1.ico"/>
   <link rel="stylesheet" href="/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
   <script src="/layui.js"></script>
@@ -18,11 +15,17 @@
 
 <div class="header">
   <div class="main">
-    <a class="logo" href="/" title="优客服问答社区">优客问答社区</a>
+
+	  <a class="logo" href="/" title="福州大学论坛">
+		  <img style="height: 40px;width: 40px;" src="/images/logo.png"/>
+		  福州大学论坛
+	  </a>
+
     <div class="nav">
-      <a class="nav-this" href="/">
-        <i class="iconfont icon-wenda"></i>问答
-      </a>
+      	<ul class="layui-nav layui-bg-green" style="top: -11px;">
+            <li class="layui-nav-item"><a href="/">论坛</a></li>
+            <li class="layui-nav-item"><a href="/work/workFile.html">作业</a></li>
+        </ul>
     </div>
     <#if user??>
 	    <div class="nav-user">      
@@ -31,14 +34,13 @@
 	      <a class="avatar" href="/user/index.html">
 	        <img src="/res/image/${user.id!''}.html" onerror="this.src='/images/user/default.png'">
 	        <cite>${user.username!''}</cite>
-	        <!-- （<i class="uk-user-level"><i class="kfont icon-vip"></i>VIP2</i>） -->
 	      </a>
 	      <div class="nav">
 	        <a href="/user/profile.html"><i class="iconfont icon-shezhi"></i>设置</a>
 	        <#if user?? && user.usertype?? && user.usertype == "0">
 	        <a href="/admin"><i class="layui-icon">&#xe631;</i>系统管理</a>
 	        </#if>
-	        <a href="/logout.html"><i class="iconfont icon-tuichu" style="top: 0; font-size: 22px;"></i>退了</a>
+	        <a href="/logout.html"><i class="iconfont icon-tuichu" style="top: 0; font-size: 22px;"></i>溜了遛了</a>
 	      </div>
 	      
 	    </div>
@@ -46,10 +48,10 @@
 	    <div class="nav-user">
 	      <!-- 未登入状态 -->
 	      <a class="unlogin" href="/login.html"><i class="iconfont icon-touxiang"></i></a>
-	      <span><a href="/login.html">登入</a><a href="/reg.html">注册</a></span>
+	      <span><a href="/login.html">登入！</a><a href="/reg.html">注册！</a></span>
 	      <p class="out-login">
-	        <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入"></a>
-	        <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入"></a>
+	        <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入（假的）"></a>
+	        <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入（假的）"></a>
 	      </p>   
 	    </div>
     </#if>
@@ -59,12 +61,9 @@
 <#include "${data.page}.html"/> 
 
 <div class="footer">
-  <p><a href="http://www.ukewo.cn/" target="_blank">优客问答社区</a> 2016 &copy; <a href="http://www.ukewo.cn/">ukewo.cn</a></p>
+  <p><a href="http://www.fzu.edu.cn/" target="_blank">福州大学论坛</a> 2018 &copy;</p>
   <p>
-    	优客问答社区是一个轻量级问答系统，基于Spring Boot构建
-  </p>
-  <p>
-    	源码在 <a href="https://git.oschina.net/ukewo/UCKeFu-ASK" style="color:red;" target="_blank">开源中国-码云</a>上下载
+    	福州大学论坛是一个轻量级的问答系统，基于Spring Boot构建
   </p>
 </div>
 <script language="javascript">
