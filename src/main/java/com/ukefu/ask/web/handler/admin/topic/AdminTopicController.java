@@ -49,7 +49,7 @@ public class AdminTopicController extends Handler{
     public ModelAndView admin(HttpServletRequest request , @Valid String q) {
 		ModelAndView view = request(super.createAdminTempletResponse("/admin/topic/index"));
 		Page<Topic> defaultTopicList = topicRes.getTopicByCate(UKDataContext.AskSectionType.DEFAULT.toString() , q, super.getP(request) , super.getPs(request)) ;
-		
+		System.out.println("获得信息咯");
 		view.addObject("defaultTopicList", processTopicCreater(defaultTopicList)) ;
         return view;
     }
@@ -131,10 +131,7 @@ public class AdminTopicController extends Handler{
 		return defaultTopicList ;
 	}
 	
-	/**
-	 * 处理 创建人
-	 * @param defaultTopicList
-	 */
+
 	protected Page<TopicComment> processCreater(Page<TopicComment> topicCommentList){
 		List<String> users = new ArrayList<String>();
 		for(TopicComment topicComment : topicCommentList.getContent()){

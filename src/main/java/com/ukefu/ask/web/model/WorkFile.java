@@ -12,12 +12,16 @@ public class WorkFile {
     private String id ;
 //    private User user;
     private String userid;
+    private String userName;
     private String fileUrl;  //文件路径
+    private String fileName; //文件名
+    private String fileSuffix;  //文件后缀
     private double score = 0;  //分数
     private int download = 0;  //下载量
     private long uptime;  //上传时间
     private String title;  //作业标题
     private String content; //作业内容
+    private int type;   //作业类型，1、是提交作业，2、是资源
 
     @Id
     @Column(length = 32)
@@ -43,12 +47,36 @@ public class WorkFile {
         this.userid = userid;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getFileUrl() {
         return fileUrl;
     }
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileSuffix() {
+        return fileSuffix;
+    }
+
+    public void setFileSuffix(String fileSuffix) {
+        this.fileSuffix = fileSuffix;
     }
 
     public double getScore() {
@@ -91,16 +119,29 @@ public class WorkFile {
         this.content = content;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "WorkFile{" +
                 "id='" + id + '\'' +
                 ", userid='" + userid + '\'' +
+                ", userName='" + userName + '\'' +
                 ", fileUrl='" + fileUrl + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", fileSuffix='" + fileSuffix + '\'' +
                 ", score=" + score +
                 ", download=" + download +
                 ", uptime=" + uptime +
                 ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", type=" + type +
                 '}';
     }
 }

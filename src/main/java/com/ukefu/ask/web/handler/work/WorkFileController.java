@@ -6,6 +6,7 @@ import com.ukefu.ask.service.repository.WorkFileRepository;
 import com.ukefu.ask.web.handler.Handler;
 import com.ukefu.ask.web.model.User;
 import com.ukefu.ask.web.model.WorkFile;
+import com.ukefu.core.UKDataContext;
 import com.ukefu.util.Menu;
 import com.ukefu.util.UKTools;
 import org.apache.commons.io.FileUtils;
@@ -120,9 +121,14 @@ public class WorkFileController extends Handler {
         File avatar = new File(path ,fileId) ;
         if(avatar.exists() && !StringUtils.isBlank(fileId)){
             WorkFile workFile = workFileRepository.getOne(id);
+            String fileName =  new String(workFile.getFileName().getBytes("gb2312"), "ISO8859-1")+workFile.getFileSuffix();
             workFile.setDownload(workFile.getDownload()+1);
             workFileRepository.save(workFile);
             response.getOutputStream().write(FileUtils.readFileToByteArray(new File(path ,fileId)));
+            response.setCharacterEncoding("utf-8");
+            System.out.println(fileName);
+            response.setContentType("application/msword");
+            response.addHeader("Content-Disposition", "attachment;filename="+fileName);
         }else{
             response.sendRedirect("/images/user/default.png");
         }
@@ -137,17 +143,20 @@ public class WorkFileController extends Handler {
     * */
     @ResponseBody
     @RequestMapping(value = "/save", produces = { "application/json;charset=UTF-8" })
-    public BaseMessage save(@RequestParam(value = "title")String title,@RequestParam(value = "content")String content,
+    public BaseMessage save(@RequestParam(value = "title")String title,
+                            @RequestParam(value = "content")String content,
+                            @RequestParam(value = "type",defaultValue = "1")int type,
                             @RequestParam(value = "file", required = false) MultipartFile file,
                             HttpServletRequest request){
         BaseMessage message = new BaseMessage();
-        ModelAndView view = request(super.createRequestPageTempletResponse("redirect:/"));
+//        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/file")) ;
         User user = super.getUser(request);
         WorkFile workFile = null;
         try {
             String imgid = UKTools.getUUID() ;
+            String fileName = file.getOriginalFilename();
             System.out.println("文件路径：" + path + ","+imgid);
-//            System.out.println(user);
+            System.out.println(file.getOriginalFilename());
             if(file!=null){
                 File workfile = new File(path , imgid);
                 FileUtils.writeByteArrayToFile(workfile, file.getBytes());
@@ -158,15 +167,20 @@ public class WorkFileController extends Handler {
             message.msg = "success";
             workFile = new WorkFile();
             workFile.setUserid(user.getId());
+            workFile.setUserName(user.getUsername());
             workFile.setUptime(System.currentTimeMillis());
+            workFile.setFileName(fileName.substring(0,fileName.lastIndexOf(".")));
+            workFile.setFileSuffix(fileName.substring(fileName.lastIndexOf(".")));
             workFile.setFileUrl(imgid);
             workFile.setTitle(title);
             workFile.setContent(content);
+            workFile.setType(type);
             workFileRepository.save(workFile);
         }
         catch (Exception e){
             message.msg = "fail";
             e.printStackTrace();
+//            view = request(super.createRequestPageTempletResponse("redirect:/"));
         }
         return message;
     }
@@ -181,15 +195,19 @@ public class WorkFileController extends Handler {
     @ResponseBody
     @RequestMapping(value = "/find", produces = { "application/json;charset=UTF-8" })
     public WorkMessage find(@RequestParam(value = "title",defaultValue = "")String title,
+                     @RequestParam(value = "me",defaultValue = "false")boolean me,
                      @RequestParam(value = "curPage",defaultValue = "1")int curPage,
-                     @RequestParam(value = "pageSize",defaultValue = "10")int pageSize){
+                     @RequestParam(value = "type",defaultValue = "1")int type,
+                     @RequestParam(value = "pageSize",defaultValue = "10")int pageSize,
+                     HttpServletRequest request){
         Page page = null;
         WorkMessage message = new WorkMessage();
+        User user = (User) request.getSession().getAttribute(UKDataContext.USER_SESSION_NAME);
         try {
-            if (StringUtils.isBlank(title)){
-                page =  workFileRepository.findAll(new PageRequest(curPage - 1,pageSize));
+            if (me){
+                page =  workFileRepository.findByUseridAndType(user.getId(),type,new PageRequest(curPage - 1,pageSize));
             }else {
-                page =  workFileRepository.findByTitleLike("%"+title+"%",new PageRequest(curPage - 1,pageSize));
+                page =  workFileRepository.findByTypeAndTitleLike(type,"%"+title+"%",new PageRequest(curPage - 1,pageSize));
             }
             message.msg = "success";
             message.data = page.getContent();

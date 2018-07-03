@@ -1,4 +1,5 @@
 <div class="main layui-clear">
+
     <div class="fly-tab">
         <span>
             <ul class="layui-nav layui-bg-green">
@@ -16,53 +17,65 @@
         </span>
     </div>
     <h2 class="page-title">作业列表</h2>
-    <div class="layui-row">
-        <div class="layui-col-md9">
-            <ul id="result">
-                
-            </ul>
-        </div>
+    <div class="result">
+        <table id="result" class="layui-table" >
+            <tr>
+                <th>标题</th>
+                <th>提交人</th>
+                <th>文件名</th>
+                <th>分数</th>
+            </tr>
+        </table>
     </div>
-
 </div>
 <script>
-function post(url, data, callback){
-    $.ajax({
-        url: url,
-        type: 'POST',
-        dataType:"JSON",
-        data:  data ||'',
-        xhrFields: {
-            withCredentials: true
-        },
-        crossDomain: true,
-        success: callback
-    });
-}
-post("http://localhost/work/find",null,function (ret) {
-    console.log(ret);
-    if(ret.msg == "success"){
-        var data = ret.data;
-        for (var i = 0; i < data.length; i++){
-            $("#result").append('' +
-                `<li style="margin-bottom: 20px;">
-                    <div class="layui-tab-card" style="padding: 10px;">
-                        <div class="layui-tab-card-header">`+data[i].title+`</div>
-                        <hr/>
-                        <div class="layui-tab-card-body detail-body">
-                            ` + data[i].content + `
-                        </div>
-                        <hr/>
-                        <div class="layui-tab-card-footer"><a style="float: right;" a href="http://localhost/work/handIn/">提交</a></div>
-                        <div class="layui-clear"></div>
-                    </div>
-                </li>`
-
-                );
-        }
-
+    function post(url, data, callback){
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType:"JSON",
+            data:  data ||'',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: callback
+        });
     }
-})
-    
+    /*
+    * 下载excel
+    * @url  接口url
+    * */
+    function downloadFileByForm(url) {
+        var form = $("<form></form>").attr("action", url).attr("method", "post");
+        form.appendTo('body').submit().remove();
+    }
 
+    post("/work/find",null,function (ret) {
+        console.log(ret);
+        if(ret.msg == "success"){
+            var data = ret.data;
+            for (var i = 0; i < data.length; i++){
+                var score;
+                if (data[i].score == 0){
+                    score = "未评分";
+                }else {
+                    score = data[i].score;
+                }
+                $("#result").append('' +
+                    '<tr>\n' +
+                    '\t\t\t\t<th >'+data[i].title+'</th>\n' +
+                    '\t\t\t\t<th >'+data[i].userName+'</th>\n' +
+                    '\t\t\t\t<th >'+data[i].fileName+'</th>\n' +
+                    '\t\t\t\t<th >'+score+'</th>\n' +
+                    '\t\t\t</tr>');
+            }
+
+        }
+    })
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…s
+    });
 </script>

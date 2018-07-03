@@ -21,9 +21,10 @@
         <table id="result" class="layui-table" >
             <tr>
                 <th>标题</th>
+                <th>提交人</th>
+                <th>文件名</th>
                 <th>下载量</th>
-                <th>下载</th>  
-                <td>说明</td>
+                <th>附件</th>
             </tr>
         </table>
     </div>
@@ -42,18 +43,29 @@ function post(url, data, callback){
         success: callback
     });
 }
+/*
+* 下载excel
+* @url  接口url
+* */
+function downloadFileByForm(url) {
+    var form = $("<form></form>").attr("action", url).attr("method", "post");
+    form.appendTo('body').submit().remove();
+}
 
-post("http://localhost/work/sourceFind",null,function (ret) {
+post("/work/find",{type:2},function (ret) {
     console.log(ret);
     if(ret.msg == "success"){
         var data = ret.data;
         for (var i = 0; i < data.length; i++){
+            var url = "/work/download/"+data[i].id+'/'+data[i].fileUrl;
+            console.log(url);
             $("#result").append('' +
                 '<tr>\n' +
                 '\t\t\t\t<th >'+data[i].title+'</th>\n' +
+                '\t\t\t\t<th >'+data[i].userName+'</th>\n' +
+                '\t\t\t\t<th >'+data[i].fileName+'</th>\n' +
                 '\t\t\t\t<th >'+data[i].download+'</th>\n' +
-                '\t\t\t\t<th ><a href="http://localhost/work/download/'+data[i].id+'/'+data[i].fileUrl+'">下载</a></th>\n' +
-                '\t\t\t\t<th >'+data[i].content+'</th>\n' +
+                '\t\t\t\t<th ><a onclick="downloadFileByForm(\''+url+'\')" style="cursor: pointer">下载</a></th>\n' +
                 '\t\t\t</tr>');
         }
 

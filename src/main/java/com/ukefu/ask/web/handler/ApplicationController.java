@@ -44,6 +44,7 @@ public class ApplicationController extends Handler{
 	@Menu(type = "apps" , subtype = "index" , access = true)
     public ModelAndView admin(HttpServletRequest request , @Valid String q) {
 		ModelAndView view = request(super.createAppsTempletResponse("/index"));
+		System.out.println("帖子列表");
 		Page<Topic> defaultTopicList = topicRes.getTopicByCate(UKDataContext.AskSectionType.DEFAULT.toString() , q, super.getP(request) , super.get50Ps(request)) ;
 		
 		view.addObject("defaultTopicList", processCreater(defaultTopicList)) ;
@@ -92,6 +93,7 @@ public class ApplicationController extends Handler{
 	@RequestMapping("/finish")
 	@Menu(type = "apps" , subtype = "finish" , access = true)
     public ModelAndView finish(HttpServletRequest request , @Valid String q) {
+		System.out.println("未结贴");
 		ModelAndView view = request(super.createAppsTempletResponse("/apps/topic/index"));
 		Page<Topic> defaultTopicList = topicRes.findByCon(new NativeSearchQueryBuilder().withQuery(termQuery("cate" , UKDataContext.AskSectionType.DEFAULT.toString())).withQuery(termQuery("finish" , false)).withSort(new FieldSortBuilder("updatetime").unmappedType("date").order(SortOrder.DESC)) , q, super.getP(request) , super.get50Ps(request)) ;
 		view.addObject("defaultTopicList", processCreater(defaultTopicList)) ;

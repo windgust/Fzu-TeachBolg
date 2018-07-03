@@ -80,8 +80,8 @@ public class UserController extends Handler{
     @Menu(type = "apps" , subtype = "user" , access = true)
     public ModelAndView index(HttpServletRequest request , HttpServletResponse response, @PathVariable String userid , @Valid String q) {
     	ModelAndView view = request(super.createAppsTempletResponse("/apps/user/index")) ;
-    	
-    	User curruser = userRes.findById(userid) ;
+		System.out.println("获取帖子信息");
+		User curruser = userRes.findById(userid) ;
     	if(curruser!=null){
 	    	if(super.getUser(request).isLogin()){
 	    		view.addObject("fan" , fansRes.findByUserAndCreater(userid , super.getUser(request).getId())) ;

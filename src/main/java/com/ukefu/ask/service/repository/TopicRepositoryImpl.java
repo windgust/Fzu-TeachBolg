@@ -3,6 +3,7 @@ package com.ukefu.ask.service.repository;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.QueryStringQueryBuilder.Operator;
 import org.elasticsearch.search.highlight.HighlightBuilder;
@@ -42,7 +43,7 @@ public class TopicRepositoryImpl implements TopicEsCommonRepository{
 	    if(!StringUtils.isBlank(q)){
 	    	searchQueryBuilder.withQuery(new QueryStringQueryBuilder(q).defaultOperator(Operator.AND)) ;
 	    }
-	    searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("title").fragmentSize(200)) ;
+//	    searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("title").fragmentSize(200)) ;
 	    SearchQuery searchQuery = searchQueryBuilder.build().setPageable(new PageRequest(p, ps)) ;
 		if(elasticsearchTemplate.indexExists(Topic.class)){
 	    	if(!StringUtils.isBlank(q)){

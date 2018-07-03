@@ -20,6 +20,13 @@
 
                       //…
                   });
+                  function search() {
+                      $("#search").click();
+                  }
+                  $(function(){
+                      $("#form").attr('action',location.href);
+
+                  })
                 </script>
               <!--
 	        <span>
@@ -30,9 +37,10 @@
 
 
 	        </span>
-	        -->
-	        <form action="/" class="fly-search">
-	          <i class="iconfont icon-sousuo"></i>
+	        --><form action="/" class="fly-search" id="form">
+
+				<i class="iconfont icon-sousuo" onclick="search();"></i>
+				<input id="search" type="submit" hidden = hidden>
 	          <input class="layui-input" autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q" value="${RequestParameters['q']!''}">
 	        </form>
 	        <a href="/topic/add.html" class="layui-btn jie-add">发布问题</a>

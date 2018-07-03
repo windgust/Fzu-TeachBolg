@@ -56,11 +56,17 @@ public class TopicController extends Handler{
 	@Autowired
 	private TopicCommentRepository topicCommentRes ;
 
+	/*
+	* 获取详细信息
+	* @param id 记录id
+	* @return
+	* */
     @RequestMapping("/detail/{id}")
     @Menu(type = "apps" , subtype = "topic" , access = true)
     public ModelAndView index(HttpServletRequest request , HttpServletResponse response, @PathVariable String id) {
     	ModelAndView view = request(super.createAppsTempletResponse("/apps/topic/detail")) ;
-    	if(!StringUtils.isBlank(id)){
+		System.out.println("获得信息咯哈哈哈");
+		if(!StringUtils.isBlank(id)){
     		Topic topic = topicRes.findOne(id) ;
     		if(topic != null){
 	    		String ip = request.getRemoteAddr();
@@ -106,12 +112,20 @@ public class TopicController extends Handler{
     	}
         return view;
     }
+
+    /*
+    * 跳转到发帖页面
+    * */
     @RequestMapping("/add")
     @Menu(type = "apps" , subtype = "topic" , access = false)
     public ModelAndView add(HttpServletRequest request , HttpServletResponse response) {
     	ModelAndView view = request(super.createAppsTempletResponse("/apps/topic/add")) ; 
         return view;
     }
+
+    /*
+    *上传图片
+    * */
     @RequestMapping("/upload")
     @Menu(type = "apps" , subtype = "topic" , access = false)
     public ModelAndView upload(HttpServletRequest request , HttpServletResponse response , @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
@@ -124,6 +138,10 @@ public class TopicController extends Handler{
     	view.addObject("name", file.getName()) ;
         return view;
     }
+
+    /*
+    * 修改帖子
+    * */
     @RequestMapping("/edit/{id}")
     @Menu(type = "apps" , subtype = "topic" , access = false)
     public ModelAndView edit(HttpServletRequest request , HttpServletResponse response, @PathVariable String id) {
@@ -131,6 +149,10 @@ public class TopicController extends Handler{
     	view.addObject("topic", topicRes.findOne(id)) ;
         return view;
     }
+
+    /*
+    * 更新帖子
+    * */
     @RequestMapping("/update/{topicid}")
     @Menu(type = "apps" , subtype = "topic" , access = false)
     public ModelAndView update(HttpServletRequest request , HttpServletResponse response , @PathVariable String topicid, @Valid Topic topic) {
@@ -146,6 +168,10 @@ public class TopicController extends Handler{
     	}
         return view;
     }
+
+    /*
+    * 保存帖子
+    * */
     @RequestMapping("/save")
     @Menu(type = "apps" , subtype = "topic" , access = false)
     public ModelAndView save(HttpServletRequest request , HttpServletResponse response, @Valid Topic topic) {
@@ -229,7 +255,8 @@ public class TopicController extends Handler{
     @Menu(type = "apps" , subtype = "topic" , access = true)
     public ModelAndView comment(HttpServletRequest request , HttpServletResponse response, @PathVariable String id , @Valid TopicComment comment) {
     	ModelAndView view = request(super.createRequestPageTempletResponse("redirect:/topic/detail/{id}.html")) ;
-    	if(!StringUtils.isBlank(id)){
+		System.out.println("获得列表信息咯");
+		if(!StringUtils.isBlank(id)){
     		User user = super.getUser(request) ;
     		comment.setUsername(user.getUsername());
     		comment.setCreater(user.getId());
@@ -370,11 +397,7 @@ public class TopicController extends Handler{
     	}
         return view;
     }
-    
-    /**
-	 * 处理 创建人
-	 * @param defaultTopicList
-	 */
+
 	protected Page<TopicComment> processCreater(Page<TopicComment> topicCommentList){
 		List<String> users = new ArrayList<String>();
 		for(TopicComment topicComment : topicCommentList.getContent()){
