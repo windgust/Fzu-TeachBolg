@@ -17,6 +17,15 @@
         </span>
     </div>
     <h2 class="page-title">作业评分</h2>
+    <ul class="layui-nav layui-nav-tree" lay-filter="test" id="wordList">
+    <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+      <li class="layui-nav-item"><a href="">示例代码</a></li><!--  -->
+      <li class="layui-nav-item"><a href="">显示</a></li>
+      <li class="layui-nav-item"><a href="">已经发布的</a></li>
+      <li class="layui-nav-item"><a href="">作业列表</a></li>
+      <li class="layui-nav-item"><a href="">点击可以</a></li>
+      <li class="layui-nav-item"><a href="">右侧显示交上来的作业</a></li>
+    </ul>
     <div class="result">
         <ul id="result">
         </ul>
@@ -64,6 +73,19 @@ post = function (url, data, callback){
         success: callback
     });
 }
+
+post("/work/find",null,function (ret) {
+        console.log(ret);
+    if(ret.msg == "success"){
+        var data = ret.data;
+        for (var i = 0; i < data.length; i++){
+            $("#wordList").append('' +
+                '<li class="layui-nav-item"><a href="' + 'url' + '">' + data[i].title + '</a></li>'
+                );
+        }
+
+    }
+})
 
 post("http://localhost/work/checkList",null,function (ret) {
     console.log(ret);

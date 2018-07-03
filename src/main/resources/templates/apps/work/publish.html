@@ -47,6 +47,21 @@
           <div class="layui-form-item">
 	           <input id="file" type="file" name="file">
           </div>
+          <div class="layui-form-item">
+	           <div class="layui-form-pane" style="margin-top: 15px;">
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">范围选择</label>
+				    <div class="layui-input-inline">
+				      <input class="layui-input" placeholder="开始日" id="LAY_demorange_s">
+				      <input type="hidden" name="start-date" id="start-date">
+				    </div>
+				    <div class="layui-input-inline">
+				      <input name="end-date" class="layui-input" placeholder="截止日" id="LAY_demorange_e">
+				      <input type="hidden" name="end-date" id="end-date">
+				    </div>
+				  </div>
+				</div> 
+          </div>
 	      <div class="layui-form-item">
 	        <button class="layui-btn" lay-filter="*" id="publish">立即发布</button>
 	      </div>
@@ -56,9 +71,47 @@
 </div>
 <script>
 var layedit  , index, upload;
-layui.use(['form' , 'layedit','upload'], function(){
-  var form = layui.form() ;
+layui.use(['form' , 'layedit','upload','laydate'], function(){
+  var form = layui.form();
+  var laydate = layui.laydate;
   layedit = layui.layedit;
+
+  var start = {
+  	min: laydate.now()
+  	,max: '2099-09-09 23:59:59'
+  	,istoday: false
+  	,istime: true
+  	,format: 'YYYY-MM-DD hh:mm:ss'
+  	,choose: function(datas) {
+  		end.min = datas;
+  		end.start = datas;
+  	}
+  };
+
+  var end = {
+    min: laydate.now()
+    ,max: '2099-06-16 23:59:59'
+    ,istoday: false
+    ,istime: true
+    ,format: 'YYYY-MM-DD hh:mm:ss'
+    ,choose: function(datas){
+      start.max = datas; //结束日选好后，重置开始日的最大日期
+    }
+  };
+  document.getElementById('LAY_demorange_s').onclick = function(){
+    start.elem = this;
+    laydate(start);
+    var start_time = Date.parse(new Date(document.getElementById('LAY_demorange_s').value));
+    console.log(start_time);
+    document.getElementById('start-date').value = start_time;
+  }
+  document.getElementById('LAY_demorange_e').onclick = function(){
+    end.elem = this
+    laydate(end);
+    var end_time = Date.parse(new Date(document.getElementById('LAY_demorange_e').value));
+    console.log(end_time);
+    document.getElementById('end-date').value = end_time;
+  }
   
   layedit.set({
 	  uploadImage: {
