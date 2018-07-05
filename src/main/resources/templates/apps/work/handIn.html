@@ -20,7 +20,7 @@
 	  <!-- <div class="fly-none">并无权限</div> -->
 	
 	  <div class="layui-form layui-form-pane">
-	    <form action="/work/handIn" method="post" enctype="multipart/form-data">
+	    <form  method="post" enctype="multipart/form-data">
 	      <div class="layui-form-item">
 	        <label for="L_title" class="layui-form-label">题目</label>
 	        <div class="layui-input-block">
@@ -34,10 +34,10 @@
 	        <label for="content" class="layui-form-label" style="top: -2px;">作业内容</label>
 	      </div>
           <div class="layui-form-item">
-	           <input type="file" name="file"> 
+	           <input id="file" type="file" name="file">
           </div>
 	      <div class="layui-form-item">
-	        <button class="layui-btn" lay-filter="*" lay-submit onclick="if(layedit){layedit.sync(index);}">提交作业</button>
+			  <input class="layui-btn" type="button" id="upload" value="提交作业">
 	      </div>
 	    </form>
 	  </div>
@@ -57,7 +57,7 @@ layui.use(['form' , 'layedit','upload'], function(){
   });
   index = layedit.build('content'); //建立编辑器
 });
-function post(url, data, callback){
+function formPost(url, data, callback){
     $.ajax({
         url: url,
         type: 'POST',
@@ -66,8 +66,40 @@ function post(url, data, callback){
         xhrFields: {
             withCredentials: true
         },
+        processData: false,
+        contentType: false,
         crossDomain: true,
         success: callback
     });
 }
+
+function GetRequest() {
+    var url = location.search; //获取url中含"?"符后的字串
+    var theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        strs = str.split("&");
+        for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+    }
+    return theRequest;
+}
+
+$("#upload").on("click",function () {
+    var formData = new FormData();
+    var request = GetRequest();
+    formData.append("title",$("#L_title").val());
+    formData.append("content",layedit.getContent(index));
+    formData.append("type",1);
+    formData.append("file",document.getElementById("file").files[0]);
+    console.log(formData);
+    formPost('/work/'+request['id']+'/save',formData,function (res) {
+        if(res.msg == "success"){
+            layer.alert('添加成功！',{icon:6});
+        }else {
+            layer.alert('添加失败！'+res.data,{icon:4});
+        }
+    })
+})
 </script>

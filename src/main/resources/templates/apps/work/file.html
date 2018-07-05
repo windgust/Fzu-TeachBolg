@@ -20,10 +20,10 @@
     <div class="result">
         <table id="result" class="layui-table" >
             <tr>
-                <th>标题</th>
-                <th>提交人</th>
-                <th>文件名</th>
-                <th>分数</th>
+                <th>题目</th>
+                <th>发布人</th>
+                <th>操作</th>
+                <th>附件</th>
             </tr>
         </table>
     </div>
@@ -51,23 +51,23 @@
         form.appendTo('body').submit().remove();
     }
 
-    post("/work/find",null,function (ret) {
+    post("/teacher/work/find",null,function (ret) {
         console.log(ret);
         if(ret.msg == "success"){
             var data = ret.data;
             for (var i = 0; i < data.length; i++){
-                var score;
-                if (data[i].score == 0){
-                    score = "未评分";
-                }else {
-                    score = data[i].score;
+                var url = "/teacher/work/download/"+data[i].id+'/'+data[i].fileUrl;
+                var handIn = '<a href="handIn.html?id='+data[i].id+'" style="cursor: pointer">提交</a>';
+                var file = '<a onclick="downloadFileByForm(\''+url+'\')" style="cursor: pointer">下载</a>';
+                if (data[i].fileName == ""){
+                    file = "无";
                 }
                 $("#result").append('' +
                     '<tr>\n' +
                     '\t\t\t\t<th >'+data[i].title+'</th>\n' +
                     '\t\t\t\t<th >'+data[i].userName+'</th>\n' +
-                    '\t\t\t\t<th >'+data[i].fileName+'</th>\n' +
-                    '\t\t\t\t<th >'+score+'</th>\n' +
+                    '\t\t\t\t<th >'+handIn+'</th>\n' +
+                    '\t\t\t\t<th >'+file+'</th>\n' +
                     '\t\t\t</tr>');
             }
 

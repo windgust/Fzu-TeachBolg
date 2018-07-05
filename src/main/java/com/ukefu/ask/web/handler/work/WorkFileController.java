@@ -3,8 +3,10 @@ package com.ukefu.ask.web.handler.work;
 import com.ukefu.ask.message.BaseMessage;
 import com.ukefu.ask.message.WorkMessage;
 import com.ukefu.ask.service.repository.WorkFileRepository;
+import com.ukefu.ask.service.repository.WorkRepository;
 import com.ukefu.ask.web.handler.Handler;
 import com.ukefu.ask.web.model.User;
+import com.ukefu.ask.web.model.Work;
 import com.ukefu.ask.web.model.WorkFile;
 import com.ukefu.core.UKDataContext;
 import com.ukefu.util.Menu;
@@ -34,6 +36,9 @@ public class WorkFileController extends Handler {
 
     @Autowired
     private WorkFileRepository workFileRepository;
+
+    @Autowired
+    private WorkRepository workRepository;
 
     @Value("${web.upload-path}")
     private String path;
@@ -126,7 +131,6 @@ public class WorkFileController extends Handler {
             workFileRepository.save(workFile);
             response.getOutputStream().write(FileUtils.readFileToByteArray(new File(path ,fileId)));
             response.setCharacterEncoding("utf-8");
-            System.out.println(fileName);
             response.setContentType("application/msword");
             response.addHeader("Content-Disposition", "attachment;filename="+fileName);
         }else{
@@ -142,9 +146,10 @@ public class WorkFileController extends Handler {
     * @return
     * */
     @ResponseBody
-    @RequestMapping(value = "/save", produces = { "application/json;charset=UTF-8" })
-    public BaseMessage save(@RequestParam(value = "title")String title,
-                            @RequestParam(value = "content")String content,
+    @RequestMapping(value = "/{id}/save", produces = { "application/json;charset=UTF-8" })
+    public BaseMessage save(@PathVariable String id,
+                            @RequestParam(value = "title")String title,
+                            @RequestParam(value = "content",defaultValue = "")String content,
                             @RequestParam(value = "type",defaultValue = "1")int type,
                             @RequestParam(value = "file", required = false) MultipartFile file,
                             HttpServletRequest request){
@@ -152,13 +157,26 @@ public class WorkFileController extends Handler {
 //        ModelAndView view = request(super.createAppsTempletResponse("/apps/work/file")) ;
         User user = super.getUser(request);
         WorkFile workFile = null;
+        Work work = null;
+        String fileId = "",fileName = "";
         try {
-            String imgid = UKTools.getUUID() ;
-            String fileName = file.getOriginalFilename();
-            System.out.println("文件路径：" + path + ","+imgid);
-            System.out.println(file.getOriginalFilename());
+            work = workRepository.getById(id);
+            if (System.currentTimeMillis() < work.getStartTime()){
+                message.msg = "fail";
+                message.data = "当前时间不在提交时间范围内";
+                return message;
+            }
+            if (System.currentTimeMillis() > work.getCloseTime()){
+                message.msg = "fail";
+                message.data = "超过截止提交时间";
+                return message;
+            }
             if(file!=null){
-                File workfile = new File(path , imgid);
+                fileId = UKTools.getUUID() ;
+                fileName = file.getOriginalFilename();
+                System.out.println("文件路径：" + path + ","+fileId);
+                System.out.println(file.getOriginalFilename());
+                File workfile = new File(path , fileId);
                 FileUtils.writeByteArrayToFile(workfile, file.getBytes());
                 System.out.println(workfile.getAbsolutePath());
             }else {
@@ -166,16 +184,21 @@ public class WorkFileController extends Handler {
             }
             message.msg = "success";
             workFile = new WorkFile();
+            workFile.setWorkId(id);
             workFile.setUserid(user.getId());
             workFile.setUserName(user.getUsername());
             workFile.setUptime(System.currentTimeMillis());
-            workFile.setFileName(fileName.substring(0,fileName.lastIndexOf(".")));
-            workFile.setFileSuffix(fileName.substring(fileName.lastIndexOf(".")));
-            workFile.setFileUrl(imgid);
-            workFile.setTitle(title);
             workFile.setContent(content);
+            if (!org.apache.commons.lang.StringUtils.isBlank(fileName)){
+                work.setFileName(fileName.substring(0,fileName.lastIndexOf(".")));
+                work.setFileSuffix(fileName.substring(fileName.lastIndexOf(".")));
+            }
+            workFile.setFileUrl(fileId);
+            workFile.setTitle(title);
             workFile.setType(type);
             workFileRepository.save(workFile);
+            work.setSubmitCount(work.getSubmitCount() + 1);
+            workRepository.save(work);
         }
         catch (Exception e){
             message.msg = "fail";
@@ -228,17 +251,21 @@ public class WorkFileController extends Handler {
     * 给作业打分
     * @param {id} 作业id
     * @param score 作业分数
+    * @param opinion 评价
     * @return
     * */
     @ResponseBody
     @RequestMapping(value = "/check/{id}",produces = {"application/json;charset=UTF-8"})
-    public BaseMessage check(@PathVariable String id, @RequestParam(value = "score")double score){
+    public BaseMessage check(@PathVariable String id,
+                             @RequestParam(value = "score")double score,
+                             @RequestParam(value = "opinion",defaultValue = "")String opinion){
         BaseMessage message = new BaseMessage();
         try {
             message.msg = "success";
             WorkFile workFile = workFileRepository.getOne(id);
             if (workFile != null){
                 workFile.setScore(score);
+                workFile.setOpinion(opinion);
                 workFileRepository.save(workFile);
             }
         }

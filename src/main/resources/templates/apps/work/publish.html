@@ -20,7 +20,7 @@
 	  <!-- <div class="fly-none">并无权限</div> -->
 	
 	  <div class="layui-form layui-form-pane">
-	    <form action="/work/save" method="post" enctype="multipart/form-data">
+	    <form id="formData" method="post" enctype="multipart/form-data">
 	      <div class="layui-form-item">
 	        <label for="L_title" class="layui-form-label">题目</label>
 	        <div class="layui-input-block">
@@ -37,9 +37,9 @@
 	        <div class="layui-inline">
 	          <label class="layui-form-label">所在类别</label>
 	          <div class="layui-input-block">
-	            <select lay-verify="required" name="cate">
+	            <select id="cate" lay-verify="required" name="cate">
 	              <option></option>
-	              <option value="default" selected="selected">默认分类</option> 
+	              <option value="default" selected="selected">默认分类</option>
 	            </select>
 	          </div>
 	        </div>
@@ -63,7 +63,7 @@
 				</div> 
           </div>
 	      <div class="layui-form-item">
-	        <button class="layui-btn" lay-filter="*" id="publish">立即发布</button>
+			  <input class="layui-btn" type="button" id="publish" value="立即发布">
 	      </div>
 	    </form>
 	  </div>
@@ -101,14 +101,14 @@ layui.use(['form' , 'layedit','upload','laydate'], function(){
   document.getElementById('LAY_demorange_s').onclick = function(){
     start.elem = this;
     laydate(start);
-    var start_time = Date.parse(new Date(document.getElementById('LAY_demorange_s').value));
+    start_time = Date.parse(new Date(document.getElementById('LAY_demorange_s').value));
     console.log(start_time);
     document.getElementById('start-date').value = start_time;
   }
   document.getElementById('LAY_demorange_e').onclick = function(){
     end.elem = this
     laydate(end);
-    var end_time = Date.parse(new Date(document.getElementById('LAY_demorange_e').value));
+    end_time = Date.parse(new Date(document.getElementById('LAY_demorange_e').value));
     console.log(end_time);
     document.getElementById('end-date').value = end_time;
   }
@@ -139,11 +139,24 @@ function formPost(url, data, callback){
 
 $("#publish").on("click",function () {
     var formData = new FormData();
-    formData.append("title",$("#L_title").val());
-    formData.append("content",$("#content").val());
-	formData.append("file",document.getElementById("file").files[0]);
-	console.log(formData);
-    formPost('/work/save',formData,function (res) {
+    var title = $("#L_title").val();
+    var workRequirements = layedit.getContent(index);
+    var file = document.getElementById("file").files[0];
+    if (title == ""){
+        layer.alert('请输入题目！',{icon:6});
+        return;
+	}
+    if (workRequirements == ""){
+        layer.alert('请输入作业要求！',{icon:6});
+        return;
+    }
+    formData.append("title",title);
+    formData.append("workRequirements",workRequirements);
+	formData.append("file",file);
+	formData.append("startTime",start_time);
+	formData.append("closeTime",end_time);
+	formData.append("type",($('select#cate option:selected').val()));
+    formPost('/teacher/work/save',formData,function (res) {
         // alert(JSON.stringify(res));
         if(res.msg == "success"){
             layer.alert('添加成功！',{icon:6})
