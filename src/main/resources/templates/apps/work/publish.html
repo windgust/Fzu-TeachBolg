@@ -152,10 +152,10 @@ $("#publish").on("click",function () {
     }
     formData.append("title",title);
     formData.append("workRequirements",workRequirements);
-	formData.append("file",file);
-	formData.append("startTime",start_time);
-	formData.append("closeTime",end_time);
-	formData.append("type",($('select#cate option:selected').val()));
+	  formData.append("file",file);
+	  formData.append("startTime",start_time);
+	  formData.append("closeTime",end_time);
+	  formData.append("type",($('select#cate option:selected').val()));
     formPost('/teacher/work/save',formData,function (res) {
         // alert(JSON.stringify(res));
         if(res.msg == "success"){

@@ -17,18 +17,13 @@
         </span>
     </div>
     <h2 class="page-title">作业评分</h2>
-    <ul class="layui-nav layui-nav-tree" lay-filter="test" id="wordList">
+    <ul class="layui-nav layui-nav-tree" lay-filter="test" id="wordList" style="float:left;">
     <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-      <li class="layui-nav-item"><a href="">示例代码</a></li><!--  -->
-      <li class="layui-nav-item"><a href="">显示</a></li>
-      <li class="layui-nav-item"><a href="">已经发布的</a></li>
-      <li class="layui-nav-item"><a href="">作业列表</a></li>
-      <li class="layui-nav-item"><a href="">点击可以</a></li>
-      <li class="layui-nav-item"><a href="">右侧显示交上来的作业</a></li>
     </ul>
-    <div class="result">
+    <div class="result" style="float: left;width: 60%;margin-left: 80px">
         <ul id="result">
         </ul>
+        <div id="demo1"></div>
     </div>
 </div>
 <div id="scoring" style="padding: 70px 20px;display: none;">
@@ -59,6 +54,7 @@
     </div>
 </div>
 <script>
+var allPage;
 post = function (url, data, callback){
     console.log(url)
     $.ajax({
@@ -74,60 +70,73 @@ post = function (url, data, callback){
     });
 }
 
-post("/work/find",null,function (ret) {
+post("/teacher/work/find",null,function (ret) {
         console.log(ret);
     if(ret.msg == "success"){
         var data = ret.data;
         for (var i = 0; i < data.length; i++){
             $("#wordList").append('' +
-                '<li class="layui-nav-item"><a href="' + 'url' + '">' + data[i].title + '</a></li>'
+                '<li class="layui-nav-item"><a href="javascript:void(0)" onclick="getWorkList()">' + data[i].title + '</a></li>'
                 );
+            console.log("workListItem")
         }
 
     }
 })
-
-post("http://localhost/work/checkList",null,function (ret) {
+getWorkList = function(){
+    post("http://localhost/work/find",null,function (ret) {
     console.log(ret);
-    if(ret.msg == "success"){
-        var data = ret.data;
-        console.log(data)
-        for (var i = 0; i < data.length; i++){
-            $("#result").append('' +
-                // '<tr id="' + data[i].id + '">\n' +
-                // '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
-                // '\t\t\t\t<th >'+data[i].title+'</th>\n' +
-                // `\t\t\t\t<td><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></td>` + 
-                // '\t\t\t\t<th >'+data[i].download+'</th>\n' +
-                // '\t\t\t\t<th >'+data[i].score+'</th>\n' +
-                // '\t\t\t</tr>');
-                // $("#result").append('' +
-                `<li style="margin-bottom: 20px;">
-                    <div class="layui-tab-card" style="padding: 10px;">
-                        <div class="layui-tab-card-header">` +
-                        `<div id="` + data[i].id + `" style="float: left;">`+data[i].title+`</div>` + 
-                        `<div style="float: right;font-size: 32px;line-height: 40px;color: #67C23A;">分数：`+data[i].score+`</div>` + 
-                        `<div style="clear: both;"></div>` +
-                        `</div>
-                        <hr/>
-                        <div class="layui-tab-card-body detail-body" style="height: 100px;">
-                            ` + data[i].content + `
-                        </div>
-                        <hr/>
-                        <div class="layui-tab-card-footer"><div style="float: right;"><button class="layui-btn">下载作业</button><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></div></div>
-                        <div class="layui-clear"></div>
-                    </div>
-                </li>`
-                );
-        }
+        if(ret.msg == "success"){
+            var data = ret.data;
+            this.allPage = ret.allPage;
+            console.log(data)
+            $('#result').text('');
+            for (var i = 0; i < data.length; i++){
 
-    }
-})
-layui.use('element','layer','form', function(){
+                $("#result").append('' +
+                    // '<tr id="' + data[i].id + '">\n' +
+                    // '\t\t\t\t<th >'+data[i].userid+'</th>\n' +
+                    // '\t\t\t\t<th >'+data[i].title+'</th>\n' +
+                    // `\t\t\t\t<td><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></td>` + 
+                    // '\t\t\t\t<th >'+data[i].download+'</th>\n' +
+                    // '\t\t\t\t<th >'+data[i].score+'</th>\n' +
+                    // '\t\t\t</tr>');
+                    // $("#result").append('' +
+                    `<li style="margin-bottom: 20px;">
+                        <div class="layui-tab-card" style="padding: 10px;">
+                            <div class="layui-tab-card-header">` +
+                            `<div id="` + data[i].id + `" style="float: left;">`+data[i].title+`</div>` + 
+                            `<div style="float: right;font-size: 32px;line-height: 40px;color: #67C23A;">分数：`+data[i].score+`</div>` + 
+                            `<div style="clear: both;"></div>` +
+                            `</div>
+                            <hr/>
+                            <div class="layui-tab-card-body detail-body" style="height: 100px;">
+                                ` + data[i].content + `
+                            </div>
+                            <hr/>
+                            <div class="layui-tab-card-footer"><div style="float: right;"><button class="layui-btn">下载作业</button><button onclick="showLabel('` + data[i].id + `')" class="layui-btn">评分</button></div></div>
+                            <div class="layui-clear"></div>
+                        </div>
+                    </li>`
+                    );
+            }
+
+        }
+    })
+}
+
+
+layui.use('element','layer','form','laypage', function(){
     var element = layui.element;
     var form = layui.form() ;
     var layer = layui.layer;
+    var laypage = layui.laypage;
     //…s
+    laypage({
+        cont: 'demo1'
+        ,pages: 100 //总页数
+        ,groups: 5 //连续显示分页数
+      });
 });
 var constId;
 function showLabel(id){
@@ -145,14 +154,19 @@ function showLabel(id){
         });
 }
 $('#check-score').click(function(){
-    post("http://localhost/work/check/" + constId, $('#form-score').serialize(),function(result){
-        console.log(result)
-    })
-    window.location.reload()
+    var score = $('#score').val();
+    if(score > 100 || score < 0){
+        alert("请输入正确是分数！");
+    } else {
+        post("http://localhost/work/check/" + constId, $('#form-score').serialize(),function(result){
+            console.log(result)
+        })
+        window.location.reload()
+    }
 })
-// setScore = function(){
-//     post("http://localhost/work/check" + constId, $('#form-score').serialize(),function(result){
-//         console.log(result)
-//     })
-// }
+
+function downloadFileByForm(url) {
+    var form = $("<form></form>").attr("action", url).attr("method", "post");
+    form.appendTo('body').submit().remove();
+}
 </script>
