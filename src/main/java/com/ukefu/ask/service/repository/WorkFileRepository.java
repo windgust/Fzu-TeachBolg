@@ -10,4 +10,5 @@ public interface WorkFileRepository extends JpaRepository<WorkFile,String> {
     Page<WorkFile> findByTitleLike(String title, Pageable pageable);
     Page<WorkFile> findByTypeAndTitleLike(int type,String title,Pageable pageable);
     Page<WorkFile> findByUseridAndType(String userid,int type,Pageable pageable);
+    Page<WorkFile> findByWorkId(String workId,Pageable pageable);
 }

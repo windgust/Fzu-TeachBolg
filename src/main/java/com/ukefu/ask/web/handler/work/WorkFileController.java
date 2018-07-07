@@ -256,6 +256,28 @@ public class WorkFileController extends Handler {
         return message;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/find/{workId}")
+    public WorkMessage findWorkFile(@PathVariable String workId,
+                                    @RequestParam(value = "curPage",defaultValue = "1")int curPage,
+                                    @RequestParam(value = "pageSize",defaultValue = "10")int pageSize){
+        WorkMessage message = new WorkMessage();
+        Page page = null;
+        try {
+            page = workFileRepository.findByWorkId(workId,new PageRequest(curPage - 1,pageSize));
+            message.msg = "success";
+            message.data = page.getContent();
+            message.curPage = curPage;
+            message.pageSize = pageSize;
+            message.count = (int) page.getTotalElements();
+            message.allPage = page.getTotalPages();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return message;
+    }
+
     /*
     * 给作业打分
     * @param {id} 作业id

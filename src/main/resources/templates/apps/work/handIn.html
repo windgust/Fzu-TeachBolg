@@ -89,6 +89,7 @@ function GetRequest() {
 $("#upload").on("click",function () {
     var formData = new FormData();
     var request = GetRequest();
+    formData.append("id",request["id"]);
     formData.append("title",$("#L_title").val());
     formData.append("content",layedit.getContent(index));
     formData.append("type",1);
