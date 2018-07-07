@@ -424,29 +424,28 @@
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="126" parent="32" name="file_url">
+    <column id="126" parent="32" name="file_name">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="127" parent="32" name="score">
+    <column id="127" parent="32" name="file_suffix">
       <Position>5</Position>
-      <DataType>double|0</DataType>
-      <NotNull>1</NotNull>
+      <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="128" parent="32" name="title">
+    <column id="128" parent="32" name="file_url">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="129" parent="32" name="uptime">
+    <column id="129" parent="32" name="opinion">
       <Position>7</Position>
-      <DataType>bigint(20)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="130" parent="32" name="user_name">
-      <Position>8</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="131" parent="32" name="userid">
+    <column id="130" parent="32" name="score">
+      <Position>8</Position>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="131" parent="32" name="title">
       <Position>9</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
@@ -455,15 +454,16 @@
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="133" parent="32" name="file_name">
+    <column id="133" parent="32" name="uptime">
       <Position>11</Position>
-      <DataType>varchar(255)|0</DataType>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="134" parent="32" name="file_suffix">
+    <column id="134" parent="32" name="user_name">
       <Position>12</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="135" parent="32" name="opinion">
+    <column id="135" parent="32" name="userid">
       <Position>13</Position>
       <DataType>varchar(255)|0</DataType>
     </column>

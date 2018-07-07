@@ -94,7 +94,7 @@ $("#upload").on("click",function () {
     formData.append("type",1);
     formData.append("file",document.getElementById("file").files[0]);
     console.log(formData);
-    formPost('/work/'+request['id']+'/save',formData,function (res) {
+    formPost('/work/save',formData,function (res) {
         if(res.msg == "success"){
             layer.alert('添加成功！',{icon:6});
         }else {

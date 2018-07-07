@@ -129,10 +129,14 @@ public class WorkFileController extends Handler {
             String fileName =  new String(workFile.getFileName().getBytes("gb2312"), "ISO8859-1")+workFile.getFileSuffix();
             workFile.setDownload(workFile.getDownload()+1);
             workFileRepository.save(workFile);
+            System.out.println(fileName);
             response.getOutputStream().write(FileUtils.readFileToByteArray(new File(path ,fileId)));
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/msword");
-            response.addHeader("Content-Disposition", "attachment;filename="+fileName);
+//            response.setHeader("content-type", "application/octet-stream");
+//            response.addHeader("Content-Disposition", "attachment;filename="+fileName);
+//            response.setContentType("application/force-download");// 设置强制下载不打开
+            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
         }else{
             response.sendRedirect("/images/user/default.png");
         }
@@ -146,8 +150,8 @@ public class WorkFileController extends Handler {
     * @return
     * */
     @ResponseBody
-    @RequestMapping(value = "/{id}/save", produces = { "application/json;charset=UTF-8" })
-    public BaseMessage save(@PathVariable String id,
+    @RequestMapping(value = "/save", produces = { "application/json;charset=UTF-8" })
+    public BaseMessage save(@RequestParam(value = "id",defaultValue = "")String id,
                             @RequestParam(value = "title")String title,
                             @RequestParam(value = "content",defaultValue = "")String content,
                             @RequestParam(value = "type",defaultValue = "1")int type,
@@ -160,16 +164,19 @@ public class WorkFileController extends Handler {
         Work work = null;
         String fileId = "",fileName = "";
         try {
-            work = workRepository.getById(id);
-            if (System.currentTimeMillis() < work.getStartTime()){
-                message.msg = "fail";
-                message.data = "当前时间不在提交时间范围内";
-                return message;
-            }
-            if (System.currentTimeMillis() > work.getCloseTime()){
-                message.msg = "fail";
-                message.data = "超过截止提交时间";
-                return message;
+            System.out.println(type);
+            if (type == 1){
+                work = workRepository.getById(id);
+                if (System.currentTimeMillis() < work.getStartTime()){
+                    message.msg = "fail";
+                    message.data = "当前时间不在提交时间范围内";
+                    return message;
+                }
+                if (System.currentTimeMillis() > work.getCloseTime()){
+                    message.msg = "fail";
+                    message.data = "超过截止提交时间";
+                    return message;
+                }
             }
             if(file!=null){
                 fileId = UKTools.getUUID() ;
@@ -190,15 +197,17 @@ public class WorkFileController extends Handler {
             workFile.setUptime(System.currentTimeMillis());
             workFile.setContent(content);
             if (!org.apache.commons.lang.StringUtils.isBlank(fileName)){
-                work.setFileName(fileName.substring(0,fileName.lastIndexOf(".")));
-                work.setFileSuffix(fileName.substring(fileName.lastIndexOf(".")));
+                workFile.setFileName(fileName.substring(0,fileName.lastIndexOf(".")));
+                workFile.setFileSuffix(fileName.substring(fileName.lastIndexOf(".")));
             }
             workFile.setFileUrl(fileId);
             workFile.setTitle(title);
             workFile.setType(type);
             workFileRepository.save(workFile);
-            work.setSubmitCount(work.getSubmitCount() + 1);
-            workRepository.save(work);
+            if (type == 1){
+                work.setSubmitCount(work.getSubmitCount() + 1);
+                workRepository.save(work);
+            }
         }
         catch (Exception e){
             message.msg = "fail";

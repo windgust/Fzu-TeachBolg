@@ -497,7 +497,9 @@ public class UserController extends Handler{
 	    		
 	    	}
     	}
-    	view.addObject("msgList", messageList);
+		System.out.println("消息条数" + messageList.size());
+		System.out.println(messages);
+		view.addObject("msgList", messageList);
     	
         return view;
     }
